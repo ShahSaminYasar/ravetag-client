@@ -1,0 +1,375 @@
+[
+  {
+    "id": "64f5a1a2b1c6e12345678901",
+    "name": "Classic T-Shirt",
+    "images": [
+      "https://media.e-valy.com/cms/products/images/0491b154-25ff-4801-825f-271dc448512b",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjqXWHhgXd3A0VqWV3SjAuVjrf4Pvps1VL2Q&s"
+    ],
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus blanditiis numquam unde aliquid perspiciatis itaque.",
+    "category": "tshirt",
+    "sku": "TSHIRT-CL-001",
+    "price": 550,
+    "offer_price": 480,
+    "sales": 320,
+    "variants": [
+      {
+        "name": "Red",
+        "value": "#ff0303",
+        "images": [
+          "https://media.istockphoto.com/id/1354031012/photo/red-t-shirt-mockup-men-as-design-template-tee-shirt-blank-isolated-on-white-front-view.jpg?s=612x612&w=0&k=20&c=_5QLLkUa0-ZzSK1rp6Ie-ZRBPOEku4as4ZMrZg-y2GI=",
+          "https://fitbangladesh.com/public/uploads/all/gD9iA06LWFB4iUYUfpUkOovlx46yUzDfkoS1skCI.jpg",
+          "https://www.uspoloassn.co.uk/cdn/shop/files/MUP0792-668-MS_2.JPG?v=1684860967&width=2400"
+        ],
+        "sizes": ["S", "M", "L", "XL"]
+      },
+      {
+        "name": "Blue",
+        "value": "#030bff",
+        "images": [
+          "https://www.tech2roo.com/276030-large_default/t-shirt-homme-segura-jona-bleu.jpg",
+          "https://m.media-amazon.com/images/I/51iVH1Q0-RL._AC_SL1250_.jpg"
+        ],
+        "sizes": ["M", "L", "XL"]
+      },
+      {
+        "name": "Designed",
+        "value": "",
+        "images": [
+          "https://www.tech2roo.com/276030-large_default/t-shirt-homme-segura-jona-bleu.jpg",
+          "https://m.media-amazon.com/images/I/51iVH1Q0-RL._AC_SL1250_.jpg"
+        ],
+        "sizes": ["S", "L", "XL"]
+      }
+    ],
+    "ratings": [
+      {
+        "username": "john_doe",
+        "stars": 4,
+        "review": "Great quality, but the sizing runs a bit small."
+      },
+      {
+        "username": "jane_smith",
+        "stars": 3,
+        "review": "Perfect fit and love the colour!"
+      }
+    ]
+  },
+  {
+    "id": "64f5a1a2b1c6e12345678902",
+    "name": "Denim Jacket",
+    "images": [
+      "https://static-01.daraz.com.bd/p/efa93fdab4ebfda1eb727c90c8f59973.jpg"
+    ],
+    "category": "jacket",
+    "sku": "JACKET-DENIM-002",
+    "price": 2000,
+    "offer_price": 1780,
+    "variants": [
+      {
+        "name": "Light Wash",
+        "sizes": ["M", "L", "XL"]
+      },
+      {
+        "name": "Dark Wash",
+        "sizes": ["S", "M", "L"]
+      }
+    ],
+    "ratings": [
+      {
+        "username": "alice_jones",
+        "stars": 5,
+        "review": "Absolutely love this jacket! It’s stylish and comfortable."
+      },
+      {
+        "username": "bob_lee",
+        "stars": 4,
+        "review": "Great jacket, but could use more pockets."
+      }
+    ]
+  },
+  {
+    "id": "64f5a1a2b1c6e12345678903",
+    "name": "Canvas Sneakers",
+    "images": [
+      "https://www.ubuy.com.bd/productimg/?image=aHR0cHM6Ly9tLm1lZGlhLWFtYXpvbi5jb20vaW1hZ2VzL0kvNzFCSmJqWjczQkwuX0FDX1NMMTUwMF8uanBn.jpg"
+    ],
+    "category": "sneaker",
+    "sku": "SHOE-CANVAS-003",
+    "price": 1200,
+    "offer_price": 1025,
+    "variants": [
+      {
+        "name": "White",
+        "sizes": [38, 39, 40, 41, 42, 43]
+      },
+      {
+        "name": "Black",
+        "sizes": [39, 40, 41, 42]
+      }
+    ],
+    "ratings": []
+  },
+  {
+    "id": "64f5a1a2b1c6e12345678902",
+    "name": "Slim Fit Sweatpants",
+    "images": [
+      "https://cdn11.bigcommerce.com/s-dgehp/images/stencil/1280x1280/products/2219/26554/2022-10-26_NR_26_451401404_01_2594__66167.1673012558.jpg"
+    ],
+    "category": "sweatpants",
+    "sku": "SWPNT-SLIM-002",
+    "price": 800,
+    "offer_price": 800,
+    "variants": [
+      {
+        "name": "Grey",
+        "sizes": ["S", "M", "L", "XL", "XXL"]
+      },
+      {
+        "name": "Black",
+        "sizes": ["M", "L", "XL"]
+      }
+    ],
+    "ratings": [
+      {
+        "username": "alice_jones",
+        "stars": 3,
+        "review": "Very comfortable and stylish!"
+      },
+      {
+        "username": "mike_williams",
+        "stars": 2,
+        "review": "Good fit, but the material is a bit thin."
+      }
+    ]
+  },
+  {
+    "id": "64f5a1a2b1c6e12345678903",
+    "name": "Cotton Shirt",
+    "images": [
+      "https://valokichu.com/upload/8d97a7fdfc991d30080ca0a937962f2f.jpg"
+    ],
+    "category": "shirt",
+    "sku": "SHIRT-COT-003",
+    "price": 1200,
+    "offer_price": 1100,
+    "variants": [
+      {
+        "name": "White",
+        "sizes": ["S", "M", "L", "XL"]
+      },
+      {
+        "name": "Blue",
+        "sizes": ["M", "L", "XL", "XXL"]
+      }
+    ],
+    "ratings": [
+      {
+        "username": "bob_lee",
+        "stars": 1,
+        "review": "Nice fabric, but the collar could be better."
+      },
+      {
+        "username": "carol_danvers",
+        "stars": 1,
+        "review": "Perfect for formal and casual occasions."
+      }
+    ]
+  },
+  {
+    "id": "64f5a1a2b1c6e12345678904",
+    "name": "Casual Hoodie",
+    "images": ["https://i.ebayimg.com/images/g/FAcAAOSw6KdiHzoq/s-l1200.webp"],
+    "category": "hoodie",
+    "sku": "HOODIE-CAS-004",
+    "price": 1500,
+    "offer_price": 1350,
+    "variants": [
+      {
+        "name": "Navy Blue",
+        "sizes": ["S", "M", "L", "XL"]
+      },
+      {
+        "name": "Black",
+        "sizes": ["M", "L", "XL", "XXL"]
+      }
+    ],
+    "ratings": [
+      {
+        "username": "dave_miller",
+        "stars": 4,
+        "review": "Warm and cozy, great for winter."
+      },
+      {
+        "username": "emma_watson",
+        "stars": 2,
+        "review": "Good quality but a bit expensive."
+      }
+    ]
+  },
+  {
+    "id": "64f5a1a2b1c6e12345678905",
+    "name": "Chino Trousers",
+    "images": [
+      "https://www.yellowclothing.net/cdn/shop/files/DSC02512_de5fbc93-6a79-42ee-a17d-0176cf257c33.jpg?v=1710048111"
+    ],
+    "category": "trousers",
+    "sku": "TROUSERS-CHINO-005",
+    "price": 1400,
+    "offer_price": 1400,
+    "variants": [
+      {
+        "name": "Khaki",
+        "sizes": ["30", "32", "34", "36"]
+      },
+      {
+        "name": "Navy",
+        "sizes": ["32", "34", "36", "38"]
+      }
+    ],
+    "ratings": [
+      {
+        "username": "frank_castle",
+        "stars": 1,
+        "review": "Durable and comfortable."
+      },
+      {
+        "username": "gina_lawson",
+        "stars": 3,
+        "review": "Excellent fit and quality."
+      }
+    ]
+  },
+  {
+    "id": "64f5a1a2b1c6e12345678907",
+    "name": "Woolen Sweater",
+    "images": [
+      "https://toptenmartltd.com/wp-content/uploads/2022/12/web-44.jpg"
+    ],
+    "category": "sweater",
+    "sku": "SWEATER-WOOL-007",
+    "price": 1800,
+    "offer_price": 1680,
+    "variants": [
+      {
+        "name": "Maroon",
+        "sizes": ["M", "L", "XL"]
+      },
+      {
+        "name": "Dark Green",
+        "sizes": ["L", "XL", "XXL"]
+      }
+    ],
+    "ratings": [
+      {
+        "username": "jason_bourne",
+        "stars": 5,
+        "review": "Super warm and fits well."
+      },
+      {
+        "username": "karen_gillan",
+        "stars": 2,
+        "review": "Good quality but a bit itchy."
+      }
+    ]
+  },
+  {
+    "id": "64f5a1a2b1c6e12345678908",
+    "name": "Leather Belt",
+    "images": [
+      "https://teakwoodleathers.com/cdn/shop/products/T_BT_753_BR_1_530x@2x.jpg?v=1666954708"
+    ],
+    "category": "accessories",
+    "sku": "BELT-LEATHER-008",
+    "price": 950,
+    "offer_price": 950,
+    "variants": [
+      {
+        "name": "Brown",
+        "sizes": ["M", "L", "XL"]
+      },
+      {
+        "name": "Black",
+        "sizes": ["L", "XL", "XXL"]
+      }
+    ],
+    "ratings": [
+      {
+        "username": "lucas_scott",
+        "stars": 4,
+        "review": "Stylish but the buckle could be stronger."
+      },
+      {
+        "username": "monica_geller",
+        "stars": 4,
+        "review": "Great quality leather, very durable."
+      }
+    ]
+  },
+  {
+    "id": "64f5a1a2b1c6e12345678909",
+    "name": "Sports Cap",
+    "images": [
+      "https://m.media-amazon.com/images/I/710zk0nrcGL._AC_SL1500_.jpg"
+    ],
+    "category": "accessories",
+    "sku": "CAP-SPORTS-009",
+    "price": 450,
+    "offer_price": 420,
+    "variants": [
+      {
+        "name": "Black",
+        "sizes": ["Adjustable"]
+      },
+      {
+        "name": "White",
+        "sizes": ["Adjustable"]
+      }
+    ],
+    "ratings": [
+      {
+        "username": "nathan_drake",
+        "stars": 2,
+        "review": "Perfect for outdoor activities."
+      },
+      {
+        "username": "olivia_benson",
+        "stars": 4,
+        "review": "Good quality but a bit tight."
+      }
+    ]
+  },
+  {
+    "id": "64f5a1a2b1c6e12345678910",
+    "name": "Denim Jeans",
+    "images": [
+      "https://www.politix.com.au/dw/image/v2/ABBA_PRD/on/demandware.static/-/Sites-politix-master-catalog/default/dwada9f402/images/hires/Summer%2024/F3/FD14-LT-INDIGO-2.jpg?sw=2500&sh=3000&sm=cut"
+    ],
+    "category": "jeans",
+    "sku": "JEANS-DENIM-010",
+    "price": 1600,
+    "offer_price": 1600,
+    "variants": [
+      {
+        "name": "Light Blue",
+        "sizes": ["30", "32", "34", "36", "38"]
+      },
+      {
+        "name": "Dark Blue",
+        "sizes": ["32", "34", "36", "38", "40"]
+      }
+    ],
+    "ratings": [
+      {
+        "username": "paul_atreides",
+        "stars": 5,
+        "review": "Excellent fit and very comfortable."
+      },
+      {
+        "username": "quinn_mallory",
+        "stars": 4,
+        "review": "Great jeans, but the pockets are small."
+      }
+    ]
+  }
+]
