@@ -130,11 +130,17 @@ const CartSidebar = () => {
 
         {/* Buttons */}
         <div className="flex flex-row gap-2 pr-3">
-          <Link className="px-3 py-2 bg-white border-2 border-red-600 text-red-600 rounded-sm text-lg w-full text-center font-semibold">
+          <Link
+            to="/cart"
+            className="px-3 py-2 bg-white border-2 border-red-600 text-red-600 rounded-sm text-lg w-full text-center font-semibold"
+          >
             Visit Cart
           </Link>
           {cartItems?.length > 0 && (
-            <Link className="px-3 py-2 bg-red-600 border-2 border-red-600 text-white rounded-sm text-lg w-full text-center">
+            <Link
+              to="/checkout"
+              className="px-3 py-2 bg-red-600 border-2 border-red-600 text-white rounded-sm text-lg w-full text-center"
+            >
               Checkout
             </Link>
           )}
