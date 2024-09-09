@@ -62,7 +62,7 @@ const ProductDetails = () => {
       newCart.push(details);
     }
     console.log("Setting new cart...");
-    localStorage.setItem("cart", JSON.stringify(newCart));
+    // localStorage.setItem("cart", JSON.stringify(newCart));
     setCart(newCart);
     let cart_drawer_input = document.getElementById("cart-drawer");
     cart_drawer_input.checked = true;

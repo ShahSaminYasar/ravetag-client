@@ -6,18 +6,17 @@ import { Link } from "react-router-dom";
 
 const CartSidebar = () => {
   const axiosPublic = useAxiosPublic();
-  const { cart } = useValues();
+  const { cart, setCart } = useValues();
 
   const [loading, setLoading] = useState(true);
   const [subtotal, setSubtotal] = useState(0);
-  const [cartItems, setCartItems] = useState();
+  // const [firstFetchDone, setFirstFetchDone] = useState(false);
 
   useEffect(() => {
     if (!Array.isArray(cart)) return;
 
-    console.log("Re-rendering cart sidebar...");
-
     const calculateSubtotal = async () => {
+      console.log("Re-calculating cart sidebar subtotal...");
       setLoading(true);
       let total = 0;
       const newCart = [...cart];
@@ -29,9 +28,14 @@ const CartSidebar = () => {
         total += price * item?.quantity;
       }
 
-      setCartItems(newCart);
+      // localStorage.setItem("cart", JSON.stringify(newCart));
       setSubtotal(total);
       setLoading(false);
+      // setFirstFetchDone(true);
+
+      if (JSON.stringify(cart) !== JSON.stringify(newCart)) {
+        setCart(newCart);
+      }
     };
 
     calculateSubtotal();
@@ -46,14 +50,14 @@ const CartSidebar = () => {
   return (
     <div>
       {/* Number of items */}
-      <span>{cartItems?.length} items</span>
+      <span>{cart?.length} items</span>
 
       {/* Products In Cart */}
       <div style={{ height: "260px", overflowY: "scroll" }}>
-        {!Array.isArray(cartItems) || loading ? (
+        {!Array.isArray(cart) || loading ? (
           <LoaderDiv />
         ) : (
-          cartItems?.map((item, i) => {
+          cart?.map((item, i) => {
             return (
               // Cart Item
               <div
@@ -78,37 +82,38 @@ const CartSidebar = () => {
                   <span className="font-bold">Tk {item?.price}</span>
                   {/* Quantity */}
                   <div className="grid grid-cols-3 gap-0 border-2 rounded-md border-slate-700 text-slate-800 text-md text-center">
+                    {/* Decrement Button */}
                     <button
                       className="p-2 w-[35px]"
                       onClick={() => {
                         if (item?.quantity > 1) {
-                          const updatedCart = [...cartItems];
-                          updatedCart[i].quantity--;
-                          setCartItems(updatedCart);
-                          localStorage.setItem(
-                            "cart",
-                            JSON.stringify(updatedCart)
+                          const updatedCart = cart?.map((cartItem, index) =>
+                            index === i
+                              ? { ...cartItem, quantity: cartItem.quantity - 1 }
+                              : cartItem
                           );
+                          setCart(updatedCart);
                           setSubtotal((subtotal) => subtotal - item?.price);
-                          console.log("-", updatedCart);
                         }
                       }}
                     >
                       -
                     </button>
+
                     <span className="p-2 font-semibold">{item?.quantity}</span>
+
+                    {/* Increment Button */}
                     <button
                       className="p-2 w-[35px]"
                       onClick={() => {
-                        const updatedCart = [...cartItems];
-                        updatedCart[i].quantity++;
-                        setCartItems(updatedCart);
-                        localStorage.setItem(
-                          "cart",
-                          JSON.stringify(updatedCart)
+                        const updatedCart = cart?.map((cartItem, index) =>
+                          index === i
+                            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+                            : cartItem
                         );
+                        setCart(updatedCart);
+                        console.log(subtotal, item?.price);
                         setSubtotal((subtotal) => subtotal + item?.price);
-                        console.log("+", updatedCart);
                       }}
                     >
                       +
@@ -136,7 +141,7 @@ const CartSidebar = () => {
           >
             Visit Cart
           </Link>
-          {cartItems?.length > 0 && (
+          {cart?.length > 0 && (
             <Link
               to="/checkout"
               className="px-3 py-2 bg-red-600 border-2 border-red-600 text-white rounded-sm text-lg w-full text-center"

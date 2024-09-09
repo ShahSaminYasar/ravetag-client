@@ -8,13 +8,15 @@ import { IoCloseSharp } from "react-icons/io5";
 
 const Cart = () => {
   const axiosPublic = useAxiosPublic();
-  const { cart } = useValues();
+  const { cart, setCart } = useValues();
 
   const [loading, setLoading] = useState(true);
   const [subtotal, setSubtotal] = useState(0);
   const [cartItems, setCartItems] = useState();
+  const [firstFetchDone, setfirstFetchDoneDone] = useState(false);
 
   useEffect(() => {
+    console.log("using Effect");
     if (!Array.isArray(cart)) return;
 
     const calculateSubtotal = async () => {
@@ -31,10 +33,13 @@ const Cart = () => {
 
       setCartItems(newCart);
       setSubtotal(total);
+      setfirstFetchDoneDone(true);
       setLoading(false);
     };
 
-    calculateSubtotal();
+    if (!firstFetchDone) {
+      calculateSubtotal();
+    }
   }, [cart]);
 
   const removeItem = async (i) => {
@@ -42,6 +47,7 @@ const Cart = () => {
     newCart.splice(i, 1);
     localStorage.setItem("cart", JSON.stringify(newCart));
     setCartItems(newCart);
+    setCart(newCart);
   };
 
   if (cart?.isLoading) return <LoaderDiv />;

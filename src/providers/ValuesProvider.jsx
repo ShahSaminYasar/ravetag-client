@@ -6,19 +6,26 @@ export const ValuesContext = createContext();
 const ValuesProvider = ({ children }) => {
   const [cart, setCart] = useState();
   const [cartTotal, setCartTotal] = useState(120);
+  const [firstStageDone, setFirstStageDone] = useState(false);
 
   const getCart = useCart();
 
   useEffect(() => {
-    console.log("Entered getCart...");
     if (getCart?.isLoading) return;
+    console.log("Entered getCart...");
 
     if (getCart && JSON.stringify(getCart) !== JSON.stringify(cart)) {
-      console.log("Setting cart...");
-      console.log(getCart);
-      setCart(getCart);
+      if (!firstStageDone) {
+        console.log("Setting cart to localstorage...");
+        setCart(getCart);
+      } else {
+        console.log("Setting localstorage to cart...");
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
     }
-  }, [getCart]);
+
+    setFirstStageDone(true);
+  }, [getCart, cart]);
 
   const values = { cartTotal, setCartTotal, cart, setCart };
 
