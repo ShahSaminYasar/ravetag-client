@@ -1,10 +1,12 @@
-import LoaderScreen from "../../components/Loaders/LoaderScreen";
+import Carousel from "../../components/Home/Carousel/Carousel";
+import Categories from "../../components/Home/Categories/Categories";
 
 const Home = () => {
   return (
-    <div>
-      <LoaderScreen />
-    </div>
+    <>
+      <Carousel />
+      <Categories />
+    </>
   );
 };
 export default Home;

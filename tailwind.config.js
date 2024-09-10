@@ -7,4 +7,14 @@ export default {
     extend: {},
   },
   plugins: [daisyui],
+  darkMode: "class",
+  daisyui: {
+    themes: [
+      {
+        dark: {
+          "base-100": "#ffffff",
+        },
+      },
+    ],
+  },
 };

@@ -3,6 +3,7 @@ import LoaderDiv from "../Loaders/LoaderDiv";
 import { useAxiosPublic } from "../../hooks/Axios/useAxiosPublic";
 import { useValues } from "../../hooks/Contexts/useValues";
 import { Link } from "react-router-dom";
+import { MdOutlineDelete } from "react-icons/md";
 
 const CartSidebar = () => {
   const axiosPublic = useAxiosPublic();
@@ -41,6 +42,13 @@ const CartSidebar = () => {
     calculateSubtotal();
   }, [cart]);
 
+  const removeItem = (i) => {
+    let newCart = [...cart];
+    newCart.splice(i, 1);
+    console.log(i, newCart);
+    setCart(newCart);
+  };
+
   if (cart?.isLoading) return <LoaderDiv />;
   if (cart?.error) {
     console.error(cart?.error);
@@ -57,12 +65,12 @@ const CartSidebar = () => {
         {!Array.isArray(cart) || loading ? (
           <LoaderDiv />
         ) : (
-          cart?.map((item, i) => {
+          cart?.map((item, itemIndex) => {
             return (
               // Cart Item
               <div
                 key={`${item?.id}${item?.color}${item?.size}`}
-                className="flex flex-row gap-2 py-2 px-0 border-b-2 border-b-slate-100"
+                className="relative flex flex-row gap-2 py-2 px-0 border-b-2 border-b-slate-100"
               >
                 {/* Image */}
                 <img
@@ -73,7 +81,9 @@ const CartSidebar = () => {
                 {/* Details */}
                 <div className="flex flex-col items-start gap-1 text-sm text-slate-800">
                   {/* Name */}
-                  <span>{item?.name}</span>
+                  <Link to={`/product/${item?.id}`} className="hover:underline">
+                    {item?.name}
+                  </Link>
                   {/* Color and Size */}
                   <span className="text-slate-500">
                     {item?.color} / {item?.size}
@@ -88,12 +98,11 @@ const CartSidebar = () => {
                       onClick={() => {
                         if (item?.quantity > 1) {
                           const updatedCart = cart?.map((cartItem, index) =>
-                            index === i
+                            index === itemIndex
                               ? { ...cartItem, quantity: cartItem.quantity - 1 }
                               : cartItem
                           );
                           setCart(updatedCart);
-                          setSubtotal((subtotal) => subtotal - item?.price);
                         }
                       }}
                     >
@@ -107,19 +116,23 @@ const CartSidebar = () => {
                       className="p-2 w-[35px]"
                       onClick={() => {
                         const updatedCart = cart?.map((cartItem, index) =>
-                          index === i
+                          index === itemIndex
                             ? { ...cartItem, quantity: cartItem.quantity + 1 }
                             : cartItem
                         );
                         setCart(updatedCart);
-                        console.log(subtotal, item?.price);
-                        setSubtotal((subtotal) => subtotal + item?.price);
                       }}
                     >
                       +
                     </button>
                   </div>
                 </div>
+                <button
+                  className="text-slate-500 text-2xl absolute top-[50%] -translate-y-[50%] right-3"
+                  onClick={() => removeItem(itemIndex)}
+                >
+                  <MdOutlineDelete />
+                </button>
               </div>
             );
           })

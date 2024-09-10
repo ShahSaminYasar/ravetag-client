@@ -12,7 +12,7 @@ const ProductDetails = () => {
   const { id: productId } = useParams();
   const { cart, setCart } = useValues();
 
-  const getProduct = useProducts(productId);
+  const getProduct = useProducts({ id: productId });
 
   const [product, setProduct] = useState({});
   const [images, setImages] = useState([]);
@@ -118,7 +118,7 @@ const ProductDetails = () => {
           </div>
         </div>
         {/* Details */}
-        <div className="col-span-2 flex flex-col gap-1 text-md text-slate-800">
+        <div className="col-span-2 flex flex-col gap-1 text-sm text-slate-800">
           {/* Product Name */}
           <h1 className="text-3xl font-semibold text-slate-800 mb-3">
             {product?.name}
@@ -131,6 +131,16 @@ const ProductDetails = () => {
           <span className="text-slate-600 capitalize mb-3">
             Category: {product?.category}
           </span>
+
+          {/* Price */}
+          <span className="text-xl font-semibold text-slate-900 -mb-2">
+            Tk {product?.offer_price}
+          </span>
+          {product?.offer_price < product?.price && (
+            <span className="text-slate-400 line-through mb-3">
+              Tk {product?.price}
+            </span>
+          )}
 
           {/* Colors */}
           <span className="underline mb-1">Colors</span>
@@ -247,12 +257,12 @@ const ProductDetails = () => {
         <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* Page content here */}
-          <label
+          {/* <label
             htmlFor="cart-drawer"
             className="drawer-button btn btn-primary"
           >
             Open drawer
-          </label>
+          </label> */}
         </div>
         <div className="drawer-side">
           <label

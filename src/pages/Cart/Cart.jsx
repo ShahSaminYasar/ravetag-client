@@ -4,7 +4,7 @@ import { useValues } from "../../hooks/Contexts/useValues";
 import LoaderDiv from "../../components/Loaders/LoaderDiv";
 import { Link } from "react-router-dom";
 import Container from "../../layouts/Container/Container";
-import { IoCloseSharp } from "react-icons/io5";
+import { MdOutlineDelete } from "react-icons/md";
 
 const Cart = () => {
   const axiosPublic = useAxiosPublic();
@@ -12,14 +12,13 @@ const Cart = () => {
 
   const [loading, setLoading] = useState(true);
   const [subtotal, setSubtotal] = useState(0);
-  const [cartItems, setCartItems] = useState();
-  const [firstFetchDone, setfirstFetchDoneDone] = useState(false);
+  // const [firstFetchDone, setFirstFetchDone] = useState(false);
 
   useEffect(() => {
-    console.log("using Effect");
     if (!Array.isArray(cart)) return;
 
     const calculateSubtotal = async () => {
+      console.log("Re-calculating cart sidebar subtotal...");
       setLoading(true);
       let total = 0;
       const newCart = [...cart];
@@ -31,22 +30,23 @@ const Cart = () => {
         total += price * item?.quantity;
       }
 
-      setCartItems(newCart);
+      // localStorage.setItem("cart", JSON.stringify(newCart));
       setSubtotal(total);
-      setfirstFetchDoneDone(true);
       setLoading(false);
+      // setFirstFetchDone(true);
+
+      if (JSON.stringify(cart) !== JSON.stringify(newCart)) {
+        setCart(newCart);
+      }
     };
 
-    if (!firstFetchDone) {
-      calculateSubtotal();
-    }
+    calculateSubtotal();
   }, [cart]);
 
-  const removeItem = async (i) => {
-    let newCart = [...cartItems];
+  const removeItem = (i) => {
+    let newCart = [...cart];
     newCart.splice(i, 1);
-    localStorage.setItem("cart", JSON.stringify(newCart));
-    setCartItems(newCart);
+    console.log(i, newCart);
     setCart(newCart);
   };
 
@@ -61,7 +61,7 @@ const Cart = () => {
       <h2 className="text-3xl block text-center text-slate-900">Your Cart</h2>
       {/* Number of items */}
       <span className="block text-slate-500 mt-2 mb-5">
-        {cartItems?.length} items
+        {cart?.length} items
       </span>
 
       {/* Products In Cart */}
@@ -70,7 +70,7 @@ const Cart = () => {
           <div className="col-span-2">
             <LoaderDiv />
           </div>
-        ) : cartItems?.length > 0 ? (
+        ) : cart?.length > 0 ? (
           <table className="col-span-2 w-full text-slate-800 text-left">
             <thead className="bg-slate-100">
               <th className="text-sm font-medium p-2">Product</th>
@@ -78,10 +78,10 @@ const Cart = () => {
               <th className="text-sm font-medium p-2">Quantity</th>
               <th className="text-sm font-medium p-2">Total</th>
             </thead>
-            {!Array.isArray(cartItems) || loading ? (
+            {!Array.isArray(cart) || loading ? (
               <LoaderDiv />
             ) : (
-              cartItems?.map((item, i) => {
+              cart?.map((item, itemIndex) => {
                 return (
                   // Cart Item
                   <tr
@@ -97,7 +97,12 @@ const Cart = () => {
                       />
                       <div className="flex flex-col items-start gap-1 text-sm text-slate-800">
                         {/* Name */}
-                        <span>{item?.name}</span>
+                        <Link
+                          to={`/product/${item?.id}`}
+                          className="hover:underline"
+                        >
+                          {item?.name}
+                        </Link>
                         {/* Color and Size */}
                         <span className="text-slate-500">
                           {item?.color} / {item?.size}
@@ -117,15 +122,15 @@ const Cart = () => {
                           className="p-2 w-[35px]"
                           onClick={() => {
                             if (item?.quantity > 1) {
-                              const updatedCart = [...cartItems];
-                              updatedCart[i].quantity--;
-                              setCartItems(updatedCart);
-                              localStorage.setItem(
-                                "cart",
-                                JSON.stringify(updatedCart)
+                              const updatedCart = cart?.map((cartItem, index) =>
+                                index === itemIndex
+                                  ? {
+                                      ...cartItem,
+                                      quantity: cartItem.quantity - 1,
+                                    }
+                                  : cartItem
                               );
-                              setSubtotal((subtotal) => subtotal - item?.price);
-                              console.log("-", updatedCart);
+                              setCart(updatedCart);
                             }
                           }}
                         >
@@ -137,15 +142,15 @@ const Cart = () => {
                         <button
                           className="p-2 w-[35px]"
                           onClick={() => {
-                            const updatedCart = [...cartItems];
-                            updatedCart[i].quantity++;
-                            setCartItems(updatedCart);
-                            localStorage.setItem(
-                              "cart",
-                              JSON.stringify(updatedCart)
+                            const updatedCart = cart?.map((cartItem, index) =>
+                              index === itemIndex
+                                ? {
+                                    ...cartItem,
+                                    quantity: cartItem.quantity + 1,
+                                  }
+                                : cartItem
                             );
-                            setSubtotal((subtotal) => subtotal + item?.price);
-                            console.log("+", updatedCart);
+                            setCart(updatedCart);
                           }}
                         >
                           +
@@ -159,10 +164,10 @@ const Cart = () => {
                       </span>
                       <button
                         className="absolute right-3 top-[50%] -translate-y-[50%] text-xl text-slate-800"
-                        onClick={() => removeItem(i)}
+                        onClick={() => removeItem(itemIndex)}
                       >
                         {" "}
-                        <IoCloseSharp />
+                        <MdOutlineDelete />
                       </button>
                     </td>
                   </tr>
@@ -190,11 +195,7 @@ const Cart = () => {
           <div className="text-md text-slate-800 flex flex-row gap-5 flex-wrap justify-between text-sm items-center border-b-[1px] pb-2 mt-3 border-b-slate-200">
             <span className="font-medium">Shipping fee</span>
             <span className="font-semibold text-md">
-              {loading
-                ? "Loading..."
-                : cartItems?.length == 0
-                ? "Tk 0"
-                : "Tk 130"}
+              {loading ? "Loading..." : cart?.length == 0 ? "Tk 0" : "Tk 130"}
             </span>
           </div>
           <div className="text-md text-slate-800 flex flex-row gap-5 flex-wrap justify-between text-sm items-center pb-2 mt-3">
@@ -202,7 +203,7 @@ const Cart = () => {
             <span className="font-bold text-lg">
               {loading
                 ? "Loading..."
-                : cartItems?.length == 0
+                : cart?.length == 0
                 ? "Tk 0"
                 : `Tk ${subtotal + 130}`}
             </span>
@@ -210,7 +211,7 @@ const Cart = () => {
 
           {/* Buttons */}
           <div className="flex flex-col gap-2 my-2">
-            {cartItems?.length > 0 && (
+            {cart?.length > 0 && (
               <Link
                 to="/checkout"
                 className="uppercase px-3 py-2 bg-red-600 border-2 border-red-600 text-white rounded-sm text-md w-full text-center"

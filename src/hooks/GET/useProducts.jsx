@@ -1,18 +1,21 @@
 import { useAxiosPublic } from "../Axios/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 
-const useProducts = (id) => {
+const useProducts = (filter) => {
   const axiosPublic = useAxiosPublic();
+  console.log("Logging products");
 
   let link;
-  if (id) {
-    link = `/products?id=${id}`;
+  if (filter?.id) {
+    link = `/products?id=${filter?.id}`;
+  } else if (filter?.category) {
+    link = `/products?category=${filter?.category}`;
   } else {
     link = `/products`;
   }
 
   const { data, isLoading, error, isError, isRefetching } = useQuery({
-    queryKey: ["getProducts"],
+    queryKey: ["getProducts", filter],
     queryFn: () => axiosPublic.get(link),
   });
 
