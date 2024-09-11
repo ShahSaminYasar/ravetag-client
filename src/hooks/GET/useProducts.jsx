@@ -8,8 +8,12 @@ const useProducts = (filter) => {
   let link;
   if (filter?.id) {
     link = `/products?id=${filter?.id}`;
+  } else if (filter?.category && filter?.top_sales) {
+    link = `/products?category=${filter?.category}&top_sales=true`;
   } else if (filter?.category) {
     link = `/products?category=${filter?.category}`;
+  } else if (filter?.top_sales) {
+    link = `/products?top_sales=true`;
   } else {
     link = `/products`;
   }

@@ -1,36 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import ProductCard from "../../components/Shop/ProductCard/ProductCard";
-import Container from "../../layouts/Container/Container";
 import useProducts from "../../hooks/GET/useProducts";
 import LoaderScreen from "../../components/Loaders/LoaderScreen";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ProductCard from "../../components/Shop/ProductCard/ProductCard";
+import Container from "../../layouts/Container/Container";
 
-const Shop = () => {
+const Trending = () => {
   const navigate = useNavigate();
   const searchInputRef = useRef(null);
   const [products, setProducts] = useState([]);
-  const [filter, setFilter] = useState({});
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
-  const category = queryParams.get("category");
-  const search = queryParams.get("search");
-  const trending = queryParams.get("trending");
-
-  useEffect(() => {
-    if (category) {
-      setFilter((filter) => ({ ...filter, category }));
-    }
-    if (search) {
-      setFilter((filter) => ({ ...filter, search }));
-    }
-    if (trending) {
-      setFilter((filter) => ({ ...filter, top_sales: true }));
-    }
-  }, [location.search, category, search, trending]);
-
-  const getProducts = useProducts(filter);
+  const getProducts = useProducts({ top_sales: true });
 
   useEffect(() => {
     if (Array.isArray(getProducts)) {
@@ -47,27 +27,12 @@ const Shop = () => {
     return <p>{getProducts?.error}</p>;
   }
 
-  // useEffect(() => {
-  //   fetch("/json/products.json")
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       return setProducts(data);
-  //     });
-  // }, []);
-
   return (
     <Container className="px-2 py-3">
       {/* Top Bar */}
       <div className="flex flex-row gap-5 justify-between items-center py-3 mb-2">
-        <span className="block text-sm text-slate-500 font-normal text-left italic capitalize">
-          {category && `Category: ${category}`}
-          {search && `Searched for '${search}'`}
-        </span>
-
         {/* Search input */}
-        <label className="input input-bordered input-sm flex items-center gap-2">
+        <label className="input input-bordered input-sm flex items-center gap-2 ml-auto">
           <input
             type="text"
             className="grow"
@@ -104,4 +69,4 @@ const Shop = () => {
     </Container>
   );
 };
-export default Shop;
+export default Trending;

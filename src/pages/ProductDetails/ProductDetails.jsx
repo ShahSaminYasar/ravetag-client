@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Container from "../../layouts/Container/Container";
 import { FaArrowRight, FaShoppingCart } from "react-icons/fa";
 import useProducts from "../../hooks/GET/useProducts";
@@ -11,6 +11,7 @@ import { useValues } from "../../hooks/Contexts/useValues";
 const ProductDetails = () => {
   const { id: productId } = useParams();
   const { cart, setCart } = useValues();
+  const navigate = useNavigate();
 
   const getProduct = useProducts({ id: productId });
 
@@ -69,6 +70,15 @@ const ProductDetails = () => {
     // setCartOpen(true);
   };
 
+  const buyNow = () => {
+    if (!selectedSize) {
+      return setSizeWarning(true);
+    }
+    return navigate(
+      `/checkout/p?id=${productId}&color=${selectedColor}&size=${selectedSize}&img=${images?.[activeImage]}`
+    );
+  };
+
   if (getProduct?.isLoading) {
     return <LoaderScreen />;
   }
@@ -76,6 +86,10 @@ const ProductDetails = () => {
   if (getProduct?.error) {
     console.error(getProduct?.error);
     return <p>{getProduct?.error}</p>;
+  }
+
+  if (getProduct?.length == 0) {
+    return <Navigate to={"/shop"} />;
   }
 
   // //   TODO
@@ -239,6 +253,7 @@ const ProductDetails = () => {
             <button
               className="w-full flex flex-row justify-center items-center gap-2 rounded-sm bg-red-600 text-white text-lg px-2 py-2 border-2 border-transparent hover:border-red-600 hover:bg-transparent hover:text-red-600 mb-8 disabled:opacity-50 disabled:pointer-events-none"
               disabled={stockOut}
+              onClick={buyNow}
             >
               <FaArrowRight /> Buy it Now
             </button>

@@ -213,7 +213,7 @@ const Cart = () => {
           <div className="flex flex-col gap-2 my-2">
             {cart?.length > 0 && (
               <Link
-                to="/checkout"
+                to="/checkout/c"
                 className="uppercase px-3 py-2 bg-red-600 border-2 border-red-600 text-white rounded-sm text-md w-full text-center"
                 disabled={loading}
               >

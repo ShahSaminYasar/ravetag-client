@@ -12,11 +12,12 @@ const swiper_img = {
   width: "100%",
   aspectRatio: "10/3",
   objectFit: "cover",
+  borderRadius: "20px",
 };
 
 const Carousel = () => {
   return (
-    <Container>
+    <Container className="my-4 rounded-2xl overflow-hidden">
       <Swiper
         modules={[Navigation, Autoplay, Pagination]}
         autoplay={{
@@ -25,8 +26,8 @@ const Carousel = () => {
           disableOnInteraction: false,
         }}
         navigation={true}
-        pagination={{ clickable: true }}
-        className="mySwiper"
+        // pagination={{ clickable: true }}
+        className="carouselSwiper"
       >
         <SwiperSlide>
           <img
