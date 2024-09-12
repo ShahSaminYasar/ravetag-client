@@ -96,7 +96,7 @@ const Shop = () => {
       </div>
 
       {/* Products Grid */}
-      <div className="w-full grid grid-cols-3 gap-6">
+      <div className="w-full flex flex-row flex-wrap gap-7 justify-center">
         {products?.map((product) => {
           return <ProductCard key={product?.sku} product={product} />;
         })}

@@ -48,6 +48,7 @@ const ProductDetails = () => {
       size: selectedSize,
       image: selectedVariant?.images?.[0],
       quantity: 1,
+      sku: product?.sku,
     };
 
     let newCart = [...cart];
@@ -268,7 +269,7 @@ const ProductDetails = () => {
       </section>
 
       {/* Cart Drawer */}
-      <div className="drawer drawer-end">
+      <div className="drawer drawer-end z-[60]">
         <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* Page content here */}

@@ -156,7 +156,7 @@ const CartSidebar = () => {
           </Link>
           {cart?.length > 0 && (
             <Link
-              to="/checkout"
+              to="/checkout/c"
               className="px-3 py-2 bg-red-600 border-2 border-red-600 text-white rounded-sm text-lg w-full text-center"
             >
               Checkout

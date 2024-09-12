@@ -1,34 +1,78 @@
 import Container from "../../layouts/Container/Container";
-import { useEffect, useState } from "react";
-import useCart from "../../hooks/GET/usecart";
 import LoaderDiv from "../../components/Loaders/LoaderDiv";
-import Title from "../../components/Title/Title";
+import CustomerDetails from "../../components/Checkout/CustomerDetails";
+import { useValues } from "../../hooks/Contexts/useValues";
+import { useEffect, useState } from "react";
+import { useAxiosPublic } from "../../hooks/Axios/useAxiosPublic";
 
 const CheckoutCart = () => {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
 
-  const getCart = useCart([]);
+  // const getCart = useCart([]);
+
+  // useEffect(() => {
+  //   if (
+  //     getCart?.length > 0 &&
+  //     JSON.stringify(getCart) !== JSON.stringify(products)
+  //   ) {
+  //     setProducts(getCart);
+  //   }
+  // }, [getCart, products]);
+
+  const axiosPublic = useAxiosPublic();
+
+  const { cart: products, setCart } = useValues();
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (
-      getCart?.length > 0 &&
-      JSON.stringify(getCart) !== JSON.stringify(products)
-    ) {
-      setProducts(getCart);
-    }
-  }, [getCart, products]);
+    const checkAndUpdate = async () => {
+      setLoading(true);
 
-  if (getCart?.length == 0) return <LoaderDiv />;
+      let updatedCart = [...products];
+
+      for (let i = 0; i < updatedCart?.length; i++) {
+        if (updatedCart[i] && "price" in updatedCart[i]) {
+          continue;
+        } else {
+          let price = await axiosPublic.get(
+            `/product-price?id=${updatedCart[i]?.id}`
+          );
+          updatedCart[i].price = price?.data?.result;
+        }
+      }
+
+      if (JSON.stringify(products) !== JSON.stringify(updatedCart)) {
+        console.log("Not same..");
+        setCart(updatedCart);
+      }
+
+      setLoading(false);
+    };
+
+    checkAndUpdate();
+  }, [products]);
+
+  if (loading) return <LoaderDiv />;
 
   return (
-    <Container className="grid grid-cols-1 lg:grid-cols-2 gap-7 justify-center items-start">
-      <div className="px-5 py-7">
+    <Container className="grid grid-cols-1 lg:grid-cols-5 gap-7 justify-center items-start">
+      <div className="lg:col-span-3 px-5 py-7">
         <span className="text-slate-800 text-2xl block text-left capitalize mb-3">
           Customer Details
         </span>
+        <CustomerDetails
+          products={products}
+          total={
+            products.reduce((total, product) => {
+              return total + product.price * product?.quantity;
+            }, 0) + 130
+          }
+        />
       </div>
 
-      <div className="px-5 py-7 bg-slate-100 flex flex-col gap-3 border-x-2 border-slate-400 border-dashed">
+      {/* Purchase Details */}
+      <div className="lg:col-span-2 sticky top-0 px-5 py-7 bg-slate-100 flex flex-col gap-3 border-x-2 border-slate-400 border-dashed lg:border-b-2">
         <span className="text-slate-800 text-2xl block text-left capitalize mb-3">
           Purchase Details
         </span>

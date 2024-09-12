@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
   return (
-    <Link to={`/product/${product?._id}`}>
+    <Link to={`/product/${product?._id}`} className="w-full max-w-80">
       <div className="relative group w-full max-w-80 rounded-sm overflow-hidden shadow-sm bg-slate-50 border-dashed border-2 border-red-200">
         {/* Product Image */}
         <div className="w-full aspect-square overflow-hidden">
