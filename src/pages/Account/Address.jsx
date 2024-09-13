@@ -79,6 +79,23 @@ const Address = () => {
 
   return (
     <Container className={`py-10 px-2`}>
+      {!user?.verified && (
+        <Link
+          to="/login"
+          className="bg-teal-100 border-2 border-teal-600 rounded-md text-teal-600 font-normal flex flex-row gap-3 justify-between items-center flex-wrap w-full my-2 mx-3 text-md py-2 px-2"
+        >
+          <span>
+            Please <span className="font-medium">verify</span> your phone number
+          </span>
+          <button
+            type="button"
+            className="px-2 py-1 text-white bg-teal-600 rounded-md"
+          >
+            Verify
+          </button>
+        </Link>
+      )}
+
       {/* Title */}
       <Title>Delivery Details</Title>
 
@@ -94,7 +111,7 @@ const Address = () => {
         <div className="flex flex-col lg:flex-row gap-3 justify-between items-center">
           {/* Phone number */}
           <span className="w-full p-3 bg-slate-100 rounded-md text-blue-900 font-medium text-lg shadow-sm">
-            Phone: {user?.phone}{" "}
+            Phone: +{user?.phone}{" "}
             <span
               className={`text-sm ${
                 user?.verified ? "text-green-500" : "text-red-500"
@@ -115,13 +132,13 @@ const Address = () => {
             </div>
           </span>
           {/* Email Address */}
-          <input
+          {/* <input
             type="email"
             name="email"
             placeholder="Email address (optional)"
             className="input input-bordered w-full"
             defaultValue={customerDetails?.email}
-          />
+          /> */}
         </div>
 
         {/* Delivery Details */}

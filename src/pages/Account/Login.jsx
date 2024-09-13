@@ -27,7 +27,7 @@ const Login = () => {
     setLoading(true);
     if (step === 1) {
       let phoneValue = e.target.phone.value;
-      phoneValue = phoneValue.replace(/[^\d]/g, "");
+      phoneValue = phoneValue.replace(/[^0-9]/g, "");
 
       if (phoneValue == "") {
         setLoading(false);
@@ -102,14 +102,14 @@ const Login = () => {
 
         {/* Phone Number Input */}
         <span className={`${step === 2 ? "hidden" : "block"}`}>
-          Enter your phone number (With Country Code)
+          Enter your phone number <span className="font-semibold">(With Country Code)</span> <span className="italic text-slate-500">Ex: +88017*****123</span>
         </span>
         <input
           type="text"
           name="phone"
           ref={phoneValueRef}
           placeholder="+880 17******90"
-          defaultValue={`+880`}
+          defaultValue={user?.phone ? `+${user?.phone?.replace(/[^0-9]/g, "")}` : `+880`}
           className={`input input-bordered ${step === 2 ? "hidden" : "block"}`}
         />
 

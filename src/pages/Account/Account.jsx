@@ -6,7 +6,7 @@ import { useValues } from "../../hooks/Contexts/useValues";
 import LoaderDiv from "../../components/Loaders/LoaderDiv";
 
 const Account = () => {
-  const { user, loading } = useValues();
+  const { user, loading, setUser } = useValues();
 
   if (loading) return <LoaderDiv />;
 
@@ -14,6 +14,14 @@ const Account = () => {
 
   return (
     <Container className={`flex flex-col gap-3 items-center py-4 px-2`}>
+      {/* {!user?.phone && (
+        <Link
+          to="/login"
+          className="px-3 py-2 text-sm rounded-md bg-indigo-800 text-white block w-fit ml-auto"
+        >
+          Login
+        </Link>
+      )} */}
       {!user?.verified && (
         <Link
           to="/login"
@@ -57,6 +65,18 @@ const Account = () => {
           <span>Address</span>
         </Link>
       </div>
+
+      {user?.phone && (
+        <button
+          className="px-3 py-2 text-sm rounded-md bg-red-700 text-white block w-fit ml-auto"
+          onClick={() => {
+            localStorage.removeItem("user");
+            return setUser({});
+          }}
+        >
+          Logout
+        </button>
+      )}
     </Container>
   );
 };

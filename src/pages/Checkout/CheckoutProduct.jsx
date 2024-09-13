@@ -3,11 +3,13 @@ import Container from "../../layouts/Container/Container";
 import { useEffect, useState } from "react";
 import useProducts from "../../hooks/GET/useProducts";
 import LoaderDiv from "../../components/Loaders/LoaderDiv";
+import CustomerDetails from "../../components/Checkout/CustomerDetails";
 
 const CheckoutProduct = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const [products, setProducts] = useState([]);
+  const [propProduct, setPropProduct] = useState([]);
 
   const id = queryParams.get("id");
   const size = queryParams.get("size");
@@ -19,16 +21,42 @@ const CheckoutProduct = () => {
   useEffect(() => {
     if (getProduct?.length > 0) {
       setProducts(getProduct);
+      let propProductData = [
+        {
+          id,
+          name: getProduct?.[0]?.name,
+          color,
+          size,
+          image: img,
+          quantity: 1,
+          sku: getProduct?.[0]?.sku,
+          price: getProduct?.[0]?.offer_price,
+        },
+      ];
+      setPropProduct(propProductData);
     }
-  }, [getProduct, id]);
+  }, [getProduct, id, color, img, size]);
 
   if (id && getProduct?.length == 0) return <LoaderDiv />;
 
   return (
-    <Container className="grid grid-cols-1 lg:grid-cols-2 gap-7 justify-center items-start">
-      <div className="px-5 py-7"></div>
+    <Container className="grid grid-cols-1 lg:grid-cols-5 gap-7 justify-center items-start">
+      <div className="lg:col-span-3 px-5 py-7">
+        <span className="text-slate-800 text-2xl block text-left capitalize mb-3">
+          Customer Details
+        </span>
+        <CustomerDetails
+          products={propProduct}
+          total={products?.[0]?.offer_price + 130}
+        />
+      </div>
 
-      <div className="px-5 py-7 bg-slate-100 flex flex-col gap-3">
+      {/* Purchase Details */}
+      <div className="lg:col-span-2 sticky top-0 px-5 py-7 bg-slate-100 flex flex-col gap-3 border-x-2 border-slate-400 border-dashed lg:border-b-2">
+        <span className="text-slate-800 text-2xl block text-left capitalize mb-3">
+          Purchase Details
+        </span>
+
         {products?.map((product) => (
           <div
             key={product?._id}
@@ -38,12 +66,13 @@ const CheckoutProduct = () => {
               <img
                 src={img}
                 alt={product?.name}
-                className="w-[70px] aspect-square rounded-md"
+                className="w-[70px] aspect-square rounded-md object-contain"
               />
-              <span className="absolute w-[15px] h-[15px] bg-red-600 grid place-content-center rounded-full text-xs text-white -top-1 -right-1">
+              <span className="absolute w-[20px] h-[20px] bg-red-600 grid place-content-center rounded-full text-sm text-white -top-1 -right-1">
                 {"1"}
               </span>
             </div>
+
             {/* Details */}
             <div className="text-slate-800 text-sm text-left flex flex-col gap-1">
               <span>{product?.name}</span>
@@ -58,11 +87,11 @@ const CheckoutProduct = () => {
           </div>
         ))}
 
-        <div className="text-sm text-slate-800">
+        <div className="text-sm text-slate-800 flex flex-col gap-2 mt-7">
           <div className="flex flex-row justify-between items-center">
             <span>Subtotal (1 item)</span>
             <span className="font-semibold">
-              Tk {products?.[0]?.offer_price}
+              Tk {products?.[0]?.offer_price || 0}
             </span>
           </div>
           <div className="flex flex-row justify-between items-center">
@@ -72,7 +101,7 @@ const CheckoutProduct = () => {
           <div className="flex flex-row justify-between items-center text-lg">
             <span>Total</span>
             <span className="font-semibold text-xl">
-              Tk {products?.[0]?.offer_price + 130}
+              Tk {products?.[0]?.offer_price + 130 || 0}
             </span>
           </div>
         </div>

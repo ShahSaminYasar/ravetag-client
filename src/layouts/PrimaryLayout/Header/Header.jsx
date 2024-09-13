@@ -1,8 +1,11 @@
 import Container from "../../Container/Container";
 import { Link, NavLink } from "react-router-dom";
 import { FaRegUser, FaShoppingCart } from "react-icons/fa";
+import { useValues } from "../../../hooks/Contexts/useValues";
 
 const Header = () => {
+  const {cart} = useValues();
+
   const nav = [
     {
       name: "Home",
@@ -61,11 +64,14 @@ const Header = () => {
             <NavLink
               to="/cart"
               className={({ isActive }) =>
-                `text-md font-normal ${
+                `relative text-md font-normal ${
                   isActive ? "text-yellow-400" : "text-white"
                 }`
               }
             >
+              <span className="absolute w-[17px] h-[17px] bg-violet-800 grid place-content-center rounded-full text-[10px] text-white -top-2 -right-2">
+                {cart?.length}
+              </span>
               <FaShoppingCart />
             </NavLink>
             <NavLink
