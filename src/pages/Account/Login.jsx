@@ -93,7 +93,7 @@ const Login = () => {
   if (user?.verified === true) return;
 
   return (
-    <Container className={`py-10 px-2`}>
+    <Container className={`pt-10 pb-4 px-2`}>
       <form
         onSubmit={(e) => handleSendOTP(e)}
         className="flex flex-col gap-3 text-sm text-slate-800 p-4 border-2 border-slate-200 border-dashed shadow-sm max-w-80 mx-auto"
@@ -102,14 +102,18 @@ const Login = () => {
 
         {/* Phone Number Input */}
         <span className={`${step === 2 ? "hidden" : "block"}`}>
-          Enter your phone number <span className="font-semibold">(With Country Code)</span> <span className="italic text-slate-500">Ex: +88017*****123</span>
+          Enter your phone number{" "}
+          <span className="font-semibold">(With Country Code)</span>{" "}
+          <span className="italic text-slate-500">Ex: +88017*****123</span>
         </span>
         <input
           type="text"
           name="phone"
           ref={phoneValueRef}
           placeholder="+880 17******90"
-          defaultValue={user?.phone ? `+${user?.phone?.replace(/[^0-9]/g, "")}` : `+880`}
+          defaultValue={
+            user?.phone ? `+${user?.phone?.replace(/[^0-9]/g, "")}` : `+880`
+          }
           className={`input input-bordered ${step === 2 ? "hidden" : "block"}`}
         />
 
@@ -147,6 +151,22 @@ const Login = () => {
           {loading ? <Loader /> : step === 1 ? "Send OTP" : "Verify"}
         </button>
       </form>
+
+      <div
+        className={`text-xs text-slate-600 flex ${
+          step === 2 ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        } flex-col gap-1 items-center my-3 mx-2 font-normal`}
+      >
+        <span>
+          সর্বোচ্চ ৫ মিনিটের মধ্যে SMS না পেলে আমাদের Helpline-এ কল করুন।
+        </span>
+        <span>
+          Helpline:{" "}
+          <a href="tel:+8801778070630" className="text-red-600">
+            +880 1778-070630
+          </a>
+        </span>
+      </div>
     </Container>
   );
 };

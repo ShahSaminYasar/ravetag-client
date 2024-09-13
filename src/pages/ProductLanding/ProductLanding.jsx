@@ -43,6 +43,14 @@ const ProductLanding = () => {
 
   return (
     <div className="product-landing-container">
+      <div className="bg-red-700 text-white text-xs py-[2px] px-2">
+        <Container
+          className={"flex flex-row justify-between items-center flex-wrap"}
+        >
+          <a href="#location">Azir Market, Beanibazar, Sylhet</a>
+          <a href="tel:01778070630">+880 1778-070630</a>
+        </Container>
+      </div>
       <header className="w-full bg-red-600 text-white text-center py-2 px-2 text-2xl shadow-sm">
         <Link to="/">RaveTag</Link>
       </header>
@@ -80,7 +88,7 @@ const ProductLanding = () => {
         )} */}
 
         {/* Order Details */}
-        <span className="font-medium text-sm w-full block text-center p-2 bg-violet-900 text-white mt-5">
+        <span className="font-medium text-sm w-full block text-center p-2 bg-violet-900 text-white mt-5 uppercase">
           Select color and Size
         </span>
         <div className="overflow-hidden">
@@ -183,11 +191,62 @@ const ProductLanding = () => {
         </div>
 
         {/* Delivery Details */}
-        <span className="font-medium text-sm w-full block text-center p-2 bg-violet-900 text-white mt-5">
+        <span className="font-medium text-sm w-full block text-center p-2 bg-violet-900 text-white mt-5 uppercase">
           Delivery Details
         </span>
 
-        <div className="p-3 bg-white w-full max-w-[700px] border-2 border-slate-200 border-dashed">
+        {/* Purchase Details */}
+        <div className="px-5 py-7 bg-slate-100 flex flex-col gap-3 border-2 border-slate-300 border-dashed w-full max-w-[700px]">
+          <span className="text-slate-800 text-2xl block text-left capitalize mb-3">
+            Purchase Details
+          </span>
+
+          <div
+            key={product?.id}
+            className="flex flex-row gap-3 items-center justify-between"
+          >
+            <div className="relative w-fit">
+              <img
+                src={images?.[activeImage]}
+                alt={product?.name}
+                className="w-[70px] aspect-square rounded-md object-contain"
+              />
+              <span className="absolute w-[20px] h-[20px] bg-red-600 grid place-content-center rounded-full text-sm text-white -top-1 -right-1">
+                1
+              </span>
+            </div>
+            {/* Details */}
+            <div className="text-slate-800 text-sm text-left flex flex-col gap-1">
+              <span>{product?.name}</span>
+              <span className="text-slate-500 italic">
+                {selectedColor} / {selectedSize || "No size selected"}
+              </span>
+            </div>
+            {/* Price */}
+            <span className="text-sm text-slate-800">
+              Tk {product?.offer_price}
+            </span>
+          </div>
+
+          <div className="text-sm text-slate-800 flex flex-col gap-2 mt-7">
+            <div className="flex flex-row justify-between items-center">
+              <span>Subtotal (1 item)</span>
+              <span className="font-semibold">Tk {product?.offer_price}</span>
+            </div>
+            <div className="flex flex-row justify-between items-center">
+              <span>Shipping</span>
+              <span className="font-semibold">Tk 130.00</span>
+            </div>
+            <div className="flex flex-row justify-between items-center text-lg">
+              <span>Total</span>
+              <span className="font-semibold text-xl">
+                Tk {product?.offer_price + 130}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-3 bg-white w-full max-w-[700px] border-2 border-slate-400 border-dashed">
           <CustomerDetails
             products={[product]}
             total={product?.offer_price + 130}

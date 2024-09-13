@@ -30,8 +30,16 @@ const TopSales = () => {
           //   navigation={true}
           pagination={{ clickable: true }}
           className="topProductsSwiper mt-7"
-          slidesPerView={3}
+          slidesPerView={1}
           spaceBetween={30}
+          breakpoints={{
+            600: {
+              slidesPerView: 2,
+            },
+            710: {
+              slidesPerView: 3,
+            },
+          }}
         >
           {getProducts?.slice(0, 6)?.map((product) => (
             <SwiperSlide key={product?.sku}>

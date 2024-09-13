@@ -109,11 +109,11 @@ const ProductDetails = () => {
 
   return (
     <Container>
-      <section className="grid grid-cols-5 gap-14 py-6 px-2">
+      <section className="grid grid-cols-1 lg:grid-cols-5 gap-14 py-6 px-2">
         {/* Image */}
-        <div className="col-span-3 overflow-hidden">
+        <div className="lg:col-span-3 overflow-hidden">
           <img
-            className="rounded-md border-2 border-slate-200 border-dashed w-full aspect-square object-contain"
+            className="rounded-md border-2 border-slate-200 border-dashed w-full max-w-80 lg:max-w-[600px] aspect-square object-contain mx-auto"
             src={images?.[activeImage]}
             alt="Product Image"
           />
@@ -133,7 +133,7 @@ const ProductDetails = () => {
           </div>
         </div>
         {/* Details */}
-        <div className="col-span-2 flex flex-col gap-1 text-sm text-slate-800">
+        <div className="lg:col-span-2 flex flex-col gap-1 text-sm text-slate-800">
           {/* Product Name */}
           <h1 className="text-3xl font-semibold text-slate-800 mb-3">
             {product?.name}

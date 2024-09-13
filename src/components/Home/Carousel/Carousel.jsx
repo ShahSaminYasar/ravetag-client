@@ -17,7 +17,7 @@ const swiper_img = {
 
 const Carousel = () => {
   return (
-    <Container className="my-4 rounded-2xl overflow-hidden">
+    <Container className="mt-4 rounded-2xl overflow-hidden px-2">
       <Swiper
         modules={[Navigation, Autoplay, Pagination]}
         autoplay={{
