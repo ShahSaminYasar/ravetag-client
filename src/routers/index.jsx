@@ -13,6 +13,10 @@ import CheckoutProduct from "../pages/Checkout/CheckoutProduct";
 import Address from "../pages/Account/Address";
 import Login from "../pages/Account/Login";
 import Purchases from "../pages/Account/Purchases";
+import Admin from "../pages/Admin/Admin";
+import AddProduct from "../pages/Admin/AddProduct";
+import AllProducts from "../pages/Admin/AllProducts";
+import Orders from "../pages/Admin/Orders";
 
 export const router = createBrowserRouter([
   {
@@ -69,5 +73,27 @@ export const router = createBrowserRouter([
   {
     path: "/product-lead/:id",
     element: <ProductLanding />,
+  },
+  {
+    path: "/admin",
+    element: <Admin />,
+    children: [
+      {
+        index: true,
+        element: <AllProducts />,
+      },
+      {
+        path: "/admin/add-product",
+        element: <AddProduct />,
+      },
+      {
+        path: "/admin/all-products",
+        element: <AllProducts />,
+      },
+      {
+        path: "/admin/orders",
+        element: <Orders />,
+      },
+    ],
   },
 ]);

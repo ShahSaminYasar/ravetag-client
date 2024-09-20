@@ -31,7 +31,7 @@ const Carousel = () => {
       >
         <SwiperSlide>
           <img
-            src={`https://scontent.fdac24-5.fna.fbcdn.net/v/t39.30808-6/341052417_745469837029825_7831739751578221825_n.jpg?stp=cp6_dst-jpg_s960x960&_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeESiQuZThrM1ZjJGcU8nnWfffN6KQ34AmB983opDfgCYD0Iwd2UsPebnzU0izwLDJBopqom2FQAzo23OpqJc7Mj&_nc_ohc=8Q1X7xgBnWgQ7kNvgFjvG8W&_nc_ht=scontent.fdac24-5.fna&oh=00_AYCaGdNyS1fxl4pjm3fqLJSlrumYi38Ewg5jPWK9xXHaew&oe=66E65AE1`}
+            src={`https://picsum.photos/1280/720`}
             style={swiper_img}
           />
         </SwiperSlide>
