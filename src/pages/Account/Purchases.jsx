@@ -112,6 +112,8 @@ const Purchases = () => {
                     ? "bg-blue-200 text-blue-700"
                     : order?.status === "complete"
                     ? "bg-green-200 text-green-700"
+                    : order?.status === "delivered"
+                    ? "bg-violet-200 text-violet-700"
                     : "bg-slate-200 text-slate-500"
                 }`}
               >
