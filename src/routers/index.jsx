@@ -17,6 +17,7 @@ import Admin from "../pages/Admin/Admin";
 import AddProduct from "../pages/Admin/AddProduct";
 import AllProducts from "../pages/Admin/AllProducts";
 import Orders from "../pages/Admin/Orders";
+import EditProduct from "../pages/Admin/EditProduct";
 
 export const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
       {
         path: "/admin/add-product",
         element: <AddProduct />,
+      },
+      {
+        path: "/admin/edit-product/:id",
+        element: <EditProduct />,
       },
       {
         path: "/admin/all-products",

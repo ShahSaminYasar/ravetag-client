@@ -1,12 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import Title from "../../components/Title/Title";
 import { useAxiosPublic } from "../../hooks/Axios/useAxiosPublic";
+import Swal from "sweetalert2";
+import Loader from "../../components/Loaders/Loader";
 
 const AddProduct = () => {
   const axios = useAxiosPublic();
 
   const [categories, setCategories] = useState([]);
+  const [productImages, setProductImages] = useState([]);
   const [variants, setVariants] = useState([]);
+  const [modified, setModified] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const formRef = useRef(null);
 
@@ -21,12 +26,82 @@ const AddProduct = () => {
     fetchCategories();
   }, []);
 
+  const handleAddProduct = async () => {
+    event.preventDefault();
+    setUploading(true);
+
+    const name = formRef.current.name.value;
+    const description = formRef.current.description.value;
+    const category = formRef.current.category.value;
+    const sku = formRef.current.sku.value;
+    const price = Number(formRef.current.price.value);
+    const offer_price = Number(formRef.current.offer_price.value);
+    const sales = Number(formRef.current.sales.value);
+
+    const data = {
+      name,
+      images: productImages,
+      description,
+      category,
+      sku,
+      price,
+      offer_price,
+      sales,
+      variants,
+    };
+
+    try {
+      const res = await axios.post("/products", { data });
+
+      if (res?.data?.message === "success") {
+        setUploading(false);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Success",
+          text: "Product Uploaded",
+          showConfirmButton: true,
+        }).then(() => {
+          setProductImages([]);
+          setVariants([]);
+          formRef.current.name.value = "";
+          formRef.current.description.value = "";
+          formRef.current.sku.value = "";
+          formRef.current.price.value = "";
+          formRef.current.offer_price.value = "";
+          formRef.current.sales.value = "";
+          return setModified(false);
+        });
+      } else {
+        return Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Failed",
+          text: `${res?.data?.message}`,
+          showConfirmButton: true,
+        });
+      }
+    } catch (error) {
+      setUploading(false);
+      return Swal.fire({
+        position: "center",
+        icon: "error",
+        title: error?.message || "An error occured",
+        showConfirmButton: true,
+      });
+    }
+  };
+
   return (
     <>
       <Title>Add Product</Title>
 
-      <form className="flex flex-col gap-2" ref={formRef}>
-        <span className="block text-slate-800 text-sm text-left font-medium -mb-1">
+      <form
+        className="flex flex-col gap-4 bg-slate-100 p-2 rounded-md mt-5"
+        ref={formRef}
+        onSubmit={handleAddProduct}
+      >
+        <span className="block text-slate-800 text-sm text-left font-medium -mb-3">
           Product Name
         </span>
         <input
@@ -36,7 +111,7 @@ const AddProduct = () => {
           className="input input-bordered"
         />
 
-        <span className="block text-slate-800 text-sm text-left font-medium -mb-1">
+        <span className="block text-slate-800 text-sm text-left font-medium -mb-3">
           Product SKU
         </span>
         <input
@@ -46,7 +121,47 @@ const AddProduct = () => {
           className="input input-bordered"
         />
 
-        <span className="block text-slate-800 text-sm text-left font-medium -mb-1">
+        <span className="block text-slate-800 text-sm text-left font-medium -mb-3">
+          Product Images
+        </span>
+        <div className="flex flex-col gap-2 items-start">
+          <div className="flex flex-row gap-1 flex-wrap justify-start">
+            {productImages?.map((image, imgIdx) => (
+              <img
+                key={`${image}${imgIdx}`}
+                src={image}
+                alt=""
+                className="block w-[130px] aspect-video object-contain"
+              />
+            ))}
+          </div>
+          <div className="flex flex-row gap-0 flex-wrap">
+            <input
+              name={`product_image_link`}
+              type="text"
+              placeholder="Paste Image Link Here"
+              className="input input-bordered input-sm"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                console.log(formRef.current["product_image_link"].value);
+                if (formRef.current["product_image_link"].value == "") {
+                  return;
+                }
+                setProductImages((productImages) => [
+                  ...productImages,
+                  formRef.current["product_image_link"].value,
+                ]);
+              }}
+              className="btn btn-sm btn-info text-white"
+            >
+              Add Image
+            </button>
+          </div>
+        </div>
+
+        <span className="block text-slate-800 text-sm text-left font-medium -mb-3">
           Description
         </span>
         <textarea
@@ -55,7 +170,7 @@ const AddProduct = () => {
           placeholder="Product Description"
         ></textarea>
 
-        <span className="block text-slate-800 text-sm text-left font-medium -mb-1">
+        <span className="block text-slate-800 text-sm text-left font-medium -mb-3">
           Product Category
         </span>
         <select name="category" className="select select-bordered capitalize">
@@ -66,59 +181,66 @@ const AddProduct = () => {
           ))}
         </select>
 
-        <span className="block text-slate-800 text-sm text-left font-medium -mb-1">
+        <span className="block text-slate-800 text-sm text-left font-medium -mb-3">
           Price
         </span>
         <input
           name="price"
           type="number"
+          min={0}
           placeholder="Price"
           className="input input-bordered"
         />
 
-        <span className="block text-slate-800 text-sm text-left font-medium -mb-1">
-          Offer Price (Keep blank if no offer)
+        <span className="block text-slate-800 text-sm text-left font-medium -mb-3">
+          Offer Price (Keep same as price if no offer)
         </span>
         <input
           name="offer_price"
+          min={0}
           type="number"
           placeholder="Offer Price (Keep blank if no offer)"
           className="input input-bordered"
         />
 
-        <span className="block text-slate-800 text-sm text-left font-medium -mb-1">
+        <span className="block text-slate-800 text-sm text-left font-medium -mb-3">
           Sales
         </span>
         <input
           name="sales"
           type="number"
+          min={0}
           placeholder="Total sales"
           className="input input-bordered"
           defaultValue="0"
         />
 
-        <div className="flex flex-row justify-between items-center mt-5">
-          <span className="block w-full text-slate-100 bg-slate-800 p-1 text-sm text-left font-medium rounded-md">
-            Variants
+        <div className="flex flex-row justify-between items-center mt-5 p-2 bg-slate-200 text-slate-800 rounded-md border-2 border-slate-400">
+          <span className="block text-slate-800 text-sm text-left font-medium">
+            Colors/Designs ({variants?.length})
           </span>
           <button
             type="button"
-            className="btn btn-info text-white font-normal btn-sm"
+            className="btn bg-slate-800 hover:bg-slate-900 text-white font-normal btn-sm"
             onClick={() => {
-              setVariants((variants) => [...variants, {}]);
+              setVariants((variants) => [
+                ...variants,
+                { name: "", value: "#2727F8", images: [], sizes: [] },
+              ]);
+              return setModified(true);
             }}
           >
-            Add Variant
+            Add Color/Design
           </button>
         </div>
 
         {variants?.map((variant, index) => (
           <div
-            key={variant?.name}
-            className="flex flex-col gap-2 py-3 border-b-2 border-b-slate-100"
+            key={`${variant?.name}_${index}`}
+            className="flex flex-col gap-2 p-3 border-2 border-green-200 bg-cyan-100 rounded-md"
           >
             <span className="block text-slate-800 text-sm text-left font-normal -mb-1">
-              Variant Name:{" "}
+              Color/Design Name:{" "}
               <input
                 name={`variant_name_${index}`}
                 type="text"
@@ -128,8 +250,8 @@ const AddProduct = () => {
               />
             </span>
 
-            <span className="block text-slate-800 text-sm text-left font-medium -mb-1">
-              Variant Images
+            <span className="block text-slate-800 text-sm text-left font-medium -mb-2 mt-2">
+              Color/Design Pictures
             </span>
             <div className="flex flex-row gap-1 flex-wrap justify-start">
               {variant?.images?.map((image) => (
@@ -137,7 +259,7 @@ const AddProduct = () => {
                   key={image}
                   src={image}
                   alt=""
-                  className="block w-[130px] aspect-video object-contain"
+                  className="block w-[80px] aspect-square object-contain"
                 />
               ))}
             </div>
@@ -153,10 +275,17 @@ const AddProduct = () => {
                 onClick={() => {
                   let newVariants = [...variants];
                   newVariants[index].images = variant?.images || [];
-                  newVariants[index]?.images?.push(
-                    formRef?.current[`variant_image_${index}`]?.value
-                  );
-                  setVariants(newVariants);
+                  if (
+                    formRef?.current[`variant_image_${index}`]?.value == "" ||
+                    formRef?.current[`variant_image_${index}`]?.value == null
+                  ) {
+                    return;
+                  } else {
+                    newVariants[index]?.images?.push(
+                      formRef?.current[`variant_image_${index}`]?.value
+                    );
+                    setVariants(newVariants);
+                  }
                 }}
                 className="btn btn-sm btn-info text-white"
               >
@@ -167,9 +296,9 @@ const AddProduct = () => {
             <span className="text-slate-800 text-sm text-left font-medium mt-2 -mb-1">
               Sizes
             </span>
-            {variant?.sizes?.map((size) => (
+            {variant?.sizes?.map((size, idx) => (
               <div
-                key={size?.size}
+                key={`variant_${index}_${idx}`}
                 className="flex flex-row gap-1 justify-start items-center flex-wrap"
               >
                 <input
@@ -177,12 +306,16 @@ const AddProduct = () => {
                   className="input input-bordered input-sm"
                   placeholder="Size"
                   defaultValue={size?.size}
+                  name={`variant_${index}_size_${idx}_size`}
+                  onChange={() => setModified(true)}
                 />
                 <input
                   type="text"
                   className="input input-bordered input-sm"
                   placeholder="Stock"
                   defaultValue={size?.stock}
+                  name={`variant_${index}_size_${idx}_stock`}
+                  onChange={() => setModified(true)}
                 />
               </div>
             ))}
@@ -191,9 +324,12 @@ const AddProduct = () => {
               className="btn btn-info btn-sm w-fit text-white"
               onClick={() => {
                 let newVariants = [...variants];
-                newVariants[index].sizes = variant?.sizes || [];
-                newVariants[index].sizes?.push({ size: "", stock: "" });
-                setVariants(newVariants);
+                newVariants[index].sizes?.push({
+                  size: "",
+                  stock: "",
+                });
+                setModified(true);
+                return setVariants(newVariants);
               }}
             >
               Add Size
@@ -201,14 +337,36 @@ const AddProduct = () => {
 
             <button
               type="button"
+              className="btn btn-sm bg-green-600 text-white block w-fit mt-2 hover:bg-green-800"
               onClick={() => {
+                if (variant?.sizes?.length == 0) {
+                  return alert("Please set at least 1 size for the variant!");
+                }
+
                 let newVariants = [...variants];
                 newVariants[index].name =
                   formRef?.current[`variant_name_${index}`]?.value;
-                setVariants(newVariants);
-                console.log(variants);
+
+                for (let i = 0; i < variant?.sizes?.length; i++) {
+                  if (
+                    formRef?.current[`variant_${index}_size_${i}_size`]
+                      ?.value == "" ||
+                    formRef?.current[`variant_${index}_size_${i}_stock`]
+                      ?.value == ""
+                  ) {
+                    return alert(
+                      "Please put valid Size and Stock in variants/colors!"
+                    );
+                  }
+                  newVariants[index].sizes[i].size =
+                    formRef?.current[`variant_${index}_size_${i}_size`]?.value;
+                  newVariants[index].sizes[i].stock =
+                    formRef?.current[`variant_${index}_size_${i}_stock`]?.value;
+                }
+
+                setModified(false);
+                return setVariants(newVariants);
               }}
-              className="btn btn-sm bg-green-600 text-white block w-fit mt-2 hover:bg-green-800"
             >
               Save Variant
             </button>
@@ -217,9 +375,15 @@ const AddProduct = () => {
 
         <button
           type="submit"
-          className="btn bg-red-600 text-white hover:bg-red-800 disabled:bg-red-800 mt-3"
+          className="btn bg-red-600 text-white hover:bg-red-800 disabled:bg-red-800 disabled:text-slate-300 mt-3"
+          disabled={modified || variants?.length == 0 || uploading}
         >
-          Add Product
+          {variants?.length == 0
+            ? "Please add colors/designs"
+            : modified
+            ? "Please save colors/designs"
+            : "Add Product"}
+          {uploading && <Loader />}
         </button>
       </form>
     </>
