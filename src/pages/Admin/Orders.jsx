@@ -4,6 +4,7 @@ import Container from "../../layouts/Container/Container";
 import LoaderScreen from "../../components/Loaders/LoaderScreen";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import Title from "../../components/Title/Title";
 
 const Orders = () => {
   const axios = useAxiosPublic();
@@ -58,6 +59,10 @@ const Orders = () => {
     <LoaderScreen />
   ) : (
     <Container>
+      <Title>All Orders</Title>
+
+      <div className="mt-4"></div>
+
       {orders
         ?.slice()
         ?.reverse()

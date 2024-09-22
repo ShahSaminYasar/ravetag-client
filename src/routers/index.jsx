@@ -18,6 +18,9 @@ import AddProduct from "../pages/Admin/AddProduct";
 import AllProducts from "../pages/Admin/AllProducts";
 import Orders from "../pages/Admin/Orders";
 import EditProduct from "../pages/Admin/EditProduct";
+import AdminRedirect from "../pages/Admin/AdminRedirect";
+import AdminRoute from "./AdminRoute";
+import AdminLogin from "../pages/Admin/AdminLogin";
 
 export const router = createBrowserRouter([
   {
@@ -76,12 +79,20 @@ export const router = createBrowserRouter([
     element: <ProductLanding />,
   },
   {
+    path: "/admin-login",
+    element: <AdminLogin />,
+  },
+  {
     path: "/admin",
-    element: <Admin />,
+    element: (
+      <AdminRoute>
+        <Admin />
+      </AdminRoute>
+    ),
     children: [
       {
         index: true,
-        element: <AllProducts />,
+        element: <AdminRedirect />,
       },
       {
         path: "/admin/add-product",

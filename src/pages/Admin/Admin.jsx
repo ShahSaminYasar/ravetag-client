@@ -41,23 +41,7 @@ const Admin = () => {
               <Title>
                 Rave<span className="text-red-600">Tag</span>
               </Title>
-              <button
-                onClick={() =>
-                  (document.getElementById("menu-drawer").checked = false)
-                }
-                className="block text-left border-b-2 border-b-slate-100"
-              >
-                <NavLink
-                  to="/admin/add-product"
-                  className={({ isActive }) =>
-                    `block w-full text-md font-normal ${
-                      isActive ? "text-indigo-700" : "text-red-600"
-                    }`
-                  }
-                >
-                  Add Product
-                </NavLink>
-              </button>
+
               <button
                 onClick={() =>
                   (document.getElementById("menu-drawer").checked = false)
@@ -75,6 +59,25 @@ const Admin = () => {
                   Orders
                 </NavLink>
               </button>
+
+              <button
+                onClick={() =>
+                  (document.getElementById("menu-drawer").checked = false)
+                }
+                className="block text-left border-b-2 border-b-slate-100"
+              >
+                <NavLink
+                  to="/admin/add-product"
+                  className={({ isActive }) =>
+                    `block w-full text-md font-normal ${
+                      isActive ? "text-indigo-700" : "text-red-600"
+                    }`
+                  }
+                >
+                  Add Product
+                </NavLink>
+              </button>
+
               <button
                 onClick={() =>
                   (document.getElementById("menu-drawer").checked = false)
