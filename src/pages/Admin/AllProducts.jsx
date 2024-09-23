@@ -34,7 +34,9 @@ const AllProducts = () => {
 
     const confirmDelete = async () => {
       try {
-        let res = await axios.delete(`/products?id=${id}`);
+        let res = await axios.delete(
+          `/products?id=${id}&token=${import.meta.env.VITE_ADMIN_TOKEN}`
+        );
         if (res?.data?.message == "success") {
           return Swal.fire({
             title: "Deleted!",

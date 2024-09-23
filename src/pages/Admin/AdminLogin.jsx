@@ -32,6 +32,7 @@ const AdminLogin = () => {
           type="text"
           required
           className="input input-bordered"
+          autoComplete="username"
         />
         <input
           name="password"
@@ -39,6 +40,7 @@ const AdminLogin = () => {
           type="password"
           required
           className="input input-bordered"
+          autoComplete="current-password"
         />
         <button
           type="submit"

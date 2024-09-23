@@ -51,7 +51,10 @@ const AddProduct = () => {
     };
 
     try {
-      const res = await axios.post("/products", { data });
+      const res = await axios.post("/products", {
+        data,
+        token: import.meta.env.VITE_ADMIN_TOKEN,
+      });
 
       if (res?.data?.message === "success") {
         setUploading(false);
@@ -285,6 +288,7 @@ const AddProduct = () => {
                       formRef?.current[`variant_image_${index}`]?.value
                     );
                     setVariants(newVariants);
+                    setModified(true);
                   }
                 }}
                 className="btn btn-sm btn-info text-white"

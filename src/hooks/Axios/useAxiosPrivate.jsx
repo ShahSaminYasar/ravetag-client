@@ -2,8 +2,8 @@ import axios from "axios";
 import { Navigate } from "react-router-dom";
 
 const instance = axios.create({
-  baseURL: "http://localhost:5000/api/v1",
-  // baseURL: "https://ravetag-server.vercel.app/api/v1",
+  // baseURL: "http://localhost:5000/api/v1",
+  baseURL: "https://ravetag-server.vercel.app/api/v1",
   withCredentials: true,
 });
 

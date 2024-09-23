@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import useProducts from "../../hooks/GET/useProducts";
 import LoaderScreen from "../../components/Loaders/LoaderScreen";
-import { useNavigate } from "react-router-dom";
 import ProductCard from "../../components/Shop/ProductCard/ProductCard";
 import Container from "../../layouts/Container/Container";
 
 const Trending = () => {
-  const navigate = useNavigate();
-  const searchInputRef = useRef(null);
+  // const navigate = useNavigate();
+  // const searchInputRef = useRef(null);
   const [products, setProducts] = useState([]);
 
   const getProducts = useProducts({ top_sales: true });
@@ -28,11 +27,11 @@ const Trending = () => {
   }
 
   return (
-    <Container className="px-2 py-3">
+    <Container className="px-2 py-3 pb-5">
       {/* Top Bar */}
       <div className="flex flex-row gap-5 justify-between items-center py-3 mb-2">
         {/* Search input */}
-        <label className="input input-bordered input-sm flex items-center gap-2 ml-auto">
+        {/* <label className="input input-bordered input-sm flex items-center gap-2 ml-auto">
           <input
             type="text"
             className="grow"
@@ -57,7 +56,7 @@ const Trending = () => {
               />
             </svg>
           </button>
-        </label>
+        </label> */}
       </div>
 
       {/* Products Grid */}

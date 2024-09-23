@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../../components/Shop/ProductCard/ProductCard";
 import Container from "../../layouts/Container/Container";
 import useProducts from "../../hooks/GET/useProducts";
 import LoaderScreen from "../../components/Loaders/LoaderScreen";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Shop = () => {
-  const navigate = useNavigate();
-  const searchInputRef = useRef(null);
+  // const navigate = useNavigate();
+  // const searchInputRef = useRef(null);
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState({});
 
@@ -58,7 +58,7 @@ const Shop = () => {
   // }, []);
 
   return (
-    <Container className="px-2 py-3">
+    <Container className="px-2 py-3 pb-5">
       {/* Top Bar */}
       <div className="flex flex-row gap-5 justify-between items-center py-3 mb-2">
         <span className="block text-sm text-slate-500 font-normal text-left italic capitalize">
@@ -67,7 +67,7 @@ const Shop = () => {
         </span>
 
         {/* Search input */}
-        <label className="input input-bordered input-sm flex items-center gap-2">
+        {/* <label className="input input-bordered input-sm flex items-center gap-2">
           <input
             type="text"
             className="grow"
@@ -92,14 +92,17 @@ const Shop = () => {
               />
             </svg>
           </button>
-        </label>
+        </label> */}
       </div>
 
       {/* Products Grid */}
       <div className="w-full flex flex-row flex-wrap gap-7 justify-center">
-        {products?.map((product) => {
-          return <ProductCard key={product?.sku} product={product} />;
-        })}
+        {products
+          ?.slice()
+          ?.reverse()
+          ?.map((product) => {
+            return <ProductCard key={product?.sku} product={product} />;
+          })}
       </div>
     </Container>
   );

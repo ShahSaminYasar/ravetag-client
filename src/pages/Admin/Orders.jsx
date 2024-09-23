@@ -14,7 +14,9 @@ const Orders = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      let res = await axios.get("/orders");
+      let res = await axios.get(
+        `/admin-orders?token=${import.meta.env.VITE_ADMIN_TOKEN}`
+      );
       setLoading(false);
       setOrders(res?.data?.result);
     };
@@ -24,7 +26,11 @@ const Orders = () => {
 
   const changeStatus = async (id, status) => {
     try {
-      let res = await axios.put(`/change-order-status`, { id, status });
+      let res = await axios.put(`/change-order-status`, {
+        id,
+        status,
+        token: import.meta.env.VITE_ADMIN_TOKEN,
+      });
       if (res?.data?.message == "success") {
         return Swal.fire({
           position: "center",

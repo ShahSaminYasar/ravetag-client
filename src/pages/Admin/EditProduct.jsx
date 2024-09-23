@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import Title from "../../components/Title/Title";
 import { useAxiosPublic } from "../../hooks/Axios/useAxiosPublic";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loaders/Loader";
 
 const EditProduct = () => {
   const { id } = useParams();
 
   const axios = useAxiosPublic();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
@@ -77,17 +78,22 @@ const EditProduct = () => {
     };
 
     try {
-      const res = await axios.put("/products", { data, id });
+      const res = await axios.put("/products", {
+        data,
+        id,
+        token: import.meta.env.VITE_ADMIN_TOKEN,
+      });
 
       if (res?.data?.message === "success") {
         Swal.fire({
           position: "center",
           icon: "success",
           title: "Success",
-          text: "Product Updated",
+          html: "Product Updated",
           showConfirmButton: true,
         }).then(() => {
-          return setUpdating(false);
+          setUpdating(false);
+          return navigate(`/admin/all-products`);
         });
       } else {
         setUpdating(false);
@@ -171,7 +177,7 @@ const EditProduct = () => {
               <button
                 type="button"
                 onClick={() => {
-                  console.log(formRef.current["product_image_link"].value);
+                  // console.log(formRef.current["product_image_link"].value);
                   if (formRef.current["product_image_link"].value == "") {
                     return;
                   }
@@ -311,6 +317,7 @@ const EditProduct = () => {
                         formRef?.current[`variant_image_${index}`]?.value
                       );
                       setVariants(newVariants);
+                      setModified(true);
                     }
                   }}
                   className="btn btn-sm btn-info text-white"
