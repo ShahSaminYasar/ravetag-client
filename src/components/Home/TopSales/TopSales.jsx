@@ -43,7 +43,9 @@ const TopSales = () => {
         >
           {getProducts?.slice(0, 6)?.map((product) => (
             <SwiperSlide key={product?.sku}>
-              <ProductCard product={product} />
+              <div className="flex flex-row justify-center">
+                <ProductCard product={product} />
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>

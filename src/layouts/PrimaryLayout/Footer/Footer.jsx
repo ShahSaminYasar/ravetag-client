@@ -4,8 +4,14 @@ import { Link } from "react-router-dom";
 import { FaDirections } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import "./footer.css";
+import { useAxiosPublic } from "../../../hooks/Axios/useAxiosPublic";
+import { useValues } from "../../../hooks/Contexts/useValues";
 
 const Footer = () => {
+  const axios = useAxiosPublic();
+
+  const { user } = useValues();
+
   const [developerName, setDeveloperName] = useState("SHAH SAMIN YASAR");
   const [developerLink, setDeveloperLink] = useState(
     "https://shahsaminyasar.github.io/portfolio/home.html"
@@ -15,22 +21,37 @@ const Footer = () => {
     const interval = setInterval(() => {
       if (developerName === "SHAH SAMIN YASAR") {
         setDeveloperName("Tech Talk2");
-        setDeveloperLink("https://www.techtalk2.com/");
+        setDeveloperLink("https://www.techtalk2.com");
       } else {
         setDeveloperName("SHAH SAMIN YASAR");
         setDeveloperLink(
           "https://shahsaminyasar.github.io/portfolio/home.html"
         );
       }
-    }, 2500);
+    }, 1800);
 
     return () => clearInterval(interval);
   }, [developerName]);
 
+  const navigateToDeveloper = (name, link) => {
+    axios
+      .put("external-link-visit", {
+        user,
+        datetime: new Date(),
+        name,
+        link,
+      })
+      .catch((error) => {
+        console.error("Error logging external link visit:", error);
+      });
+
+    window.open(link, "_blank");
+  };
+
   return (
-    <footer className="bg-zinc-50 border-t-2 border-y-red-600">
+    <footer className="bg-yellow-50 border-t-2 border-y-red-600">
       <Container
-        className={`flex flex-row gap-8 flex-wrap justify-between items-start px-2 py-10`}
+        className={`flex flex-col md:flex-row gap-5 flex-wrap justify-between items-start px-2 py-10`}
       >
         <img src={logo} alt="Logo" className="w-full max-w-52" />
 
@@ -61,14 +82,13 @@ const Footer = () => {
         <br />
         <span className="block text-slate-500 mt-1">
           Made with <span className="text-red-600">❤</span> by{" "}
-          <a
-            href={developerLink}
-            target="_blank"
+          <button
             id="developer"
             className="text-red-600 font-medium"
+            onClick={() => navigateToDeveloper(developerName, developerLink)}
           >
             {developerName}
-          </a>
+          </button>
         </span>
       </div>
     </footer>

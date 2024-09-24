@@ -1,6 +1,6 @@
 #developer {
   opacity: 0;
-  animation: fade 2500ms linear infinite;
+  animation: fade 1800ms linear infinite;
 }
 
 @keyframes fade {
@@ -14,7 +14,7 @@
     opacity: 1;
   }
   90% {
-    opacity: 0;
+    opacity: 1;
   }
   100% {
     opacity: 0;

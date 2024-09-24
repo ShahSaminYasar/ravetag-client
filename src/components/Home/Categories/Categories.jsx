@@ -17,7 +17,7 @@ const Categories = () => {
           "An error occured, please refresh the page."
         ) : (
           getCategories?.slice(0, 6)?.map((category) => (
-            <Link key={category} to={`/shop?category=${category?.name}`}>
+            <Link key={category?.name} to={`/shop?category=${category?.name}`}>
               <div className="relative group w-[100%] max-w-[300px] aspect-[3/4] overflow-hidden">
                 <img
                   src={category?.image}
