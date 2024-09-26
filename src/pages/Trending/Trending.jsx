@@ -3,6 +3,7 @@ import useProducts from "../../hooks/GET/useProducts";
 import LoaderScreen from "../../components/Loaders/LoaderScreen";
 import ProductCard from "../../components/Shop/ProductCard/ProductCard";
 import Container from "../../layouts/Container/Container";
+import { Helmet } from "react-helmet";
 
 const Trending = () => {
   // const navigate = useNavigate();
@@ -27,11 +28,15 @@ const Trending = () => {
   }
 
   return (
-    <Container className="px-2 py-3 pb-5">
-      {/* Top Bar */}
-      <div className="flex flex-row gap-5 justify-between items-center py-3 mb-2">
-        {/* Search input */}
-        {/* <label className="input input-bordered input-sm flex items-center gap-2 ml-auto">
+    <>
+      <Helmet>
+        <title>Trending Products | RaveTag BD</title>
+      </Helmet>
+      <Container className="px-2 py-3 pb-5">
+        {/* Top Bar */}
+        <div className="flex flex-row gap-5 justify-between items-center py-3 mb-2">
+          {/* Search input */}
+          {/* <label className="input input-bordered input-sm flex items-center gap-2 ml-auto">
           <input
             type="text"
             className="grow"
@@ -57,15 +62,16 @@ const Trending = () => {
             </svg>
           </button>
         </label> */}
-      </div>
+        </div>
 
-      {/* Products Grid */}
-      <div className="w-full flex flex-row flex-wrap gap-7 justify-center">
-        {products?.map((product) => {
-          return <ProductCard key={product?.sku} product={product} />;
-        })}
-      </div>
-    </Container>
+        {/* Products Grid */}
+        <div className="w-full flex flex-row flex-wrap gap-7 justify-center">
+          {products?.map((product) => {
+            return <ProductCard key={product?.sku} product={product} />;
+          })}
+        </div>
+      </Container>
+    </>
   );
 };
 export default Trending;

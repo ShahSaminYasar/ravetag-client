@@ -34,7 +34,7 @@ const ProductCard = ({ product }) => {
         </div>
         {/* View Product Button */}
         <Link
-          to={`/product/${product?.id}`}
+          to={`/product/${product?._id}`}
           className="col-span-2 hidden flex-row justify-center items-center gap-2 w-full rounded-md bg-transparent text-red-600 font-semibold text-sm px-2 py-2 group-hover:flex absolute bottom-5 left-0 right-0"
         >
           <FaEye /> View

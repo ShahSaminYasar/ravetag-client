@@ -7,6 +7,7 @@ import LoaderScreen from "../../components/Loaders/LoaderScreen";
 import { IoCloseSharp } from "react-icons/io5";
 import CartSidebar from "../../components/CartSidebar/CartSidebar";
 import { useValues } from "../../hooks/Contexts/useValues";
+import { Helmet } from "react-helmet";
 
 const ProductDetails = () => {
   const { id: productId } = useParams();
@@ -108,203 +109,210 @@ const ProductDetails = () => {
   // }, []);
 
   return (
-    <Container>
-      <section className="grid grid-cols-1 lg:grid-cols-5 gap-14 py-6 px-2">
-        {/* Image */}
-        <div className="lg:col-span-3 overflow-hidden">
-          <img
-            className="rounded-md border-2 border-slate-200 border-dashed w-full max-w-80 lg:max-w-[600px] aspect-square object-contain mx-auto"
-            src={images?.[activeImage]}
-            alt="Product Image"
-          />
-          <div className="flex flex-row flex-wrap gap-2 my-5">
-            {images?.map((image, i) => (
-              <img
-                key={image}
-                src={image}
-                onClick={() => {
-                  setActiveImage(i);
-                }}
-                className={`w-[70px] aspect-square object-contain border-2 border-dashed border-red-200 cursor-pointer ${
-                  activeImage == i && "opacity-50"
-                }`}
-              />
-            ))}
+    <>
+      <Helmet>
+        <title>{product?.name || "Product"} | RaveTag BD</title>
+      </Helmet>
+      <Container>
+        <section className="grid grid-cols-1 lg:grid-cols-5 gap-14 py-6 px-2">
+          {/* Image */}
+          <div className="lg:col-span-3 overflow-hidden">
+            <img
+              className="rounded-md border-2 border-slate-200 border-dashed w-full max-w-80 lg:max-w-[600px] aspect-square object-contain mx-auto"
+              src={images?.[activeImage]}
+              alt="Product Image"
+            />
+            <div className="flex flex-row flex-wrap gap-2 my-5">
+              {images?.map((image, i) => (
+                <img
+                  key={image}
+                  src={image}
+                  onClick={() => {
+                    setActiveImage(i);
+                  }}
+                  className={`w-[70px] aspect-square object-contain border-2 border-dashed border-red-200 cursor-pointer ${
+                    activeImage == i && "opacity-50"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-        {/* Details */}
-        <div className="lg:col-span-2 flex flex-col gap-1 text-sm text-slate-800">
-          {/* Product Name */}
-          <h1 className="text-3xl font-semibold text-slate-800 mb-3">
-            {product?.name}
-          </h1>
+          {/* Details */}
+          <div className="lg:col-span-2 flex flex-col gap-1 text-sm text-slate-800">
+            {/* Product Name */}
+            <h1 className="text-3xl font-semibold text-slate-800 mb-3">
+              {product?.name}
+            </h1>
 
-          {/* Product SKU */}
-          <span className="text-slate-600 capitalize">SKU: {product?.sku}</span>
-
-          {/* Category */}
-          <span className="text-slate-600 capitalize mb-3">
-            Category: {product?.category}
-          </span>
-
-          {/* Price */}
-          <span className="text-xl font-semibold text-slate-900 -mb-2">
-            Tk {product?.offer_price}
-          </span>
-          {product?.offer_price < product?.price && (
-            <span className="text-slate-400 line-through mb-3">
-              Tk {product?.price}
+            {/* Product SKU */}
+            <span className="text-slate-600 capitalize">
+              SKU: {product?.sku}
             </span>
-          )}
 
-          {/* Colors */}
-          <span className="underline mb-1">Colors</span>
-          <div className="flex flex-row gap-2 items-center justify-start mb-3">
-            {product?.variants?.map((variant) => (
-              <div key={variant?.name} className="flex flex-col items-center">
+            {/* Category */}
+            <span className="text-slate-600 capitalize mb-3">
+              Category: {product?.category}
+            </span>
+
+            {/* Price */}
+            <span className="text-xl font-semibold text-slate-900 -mb-2">
+              Tk {product?.offer_price}
+            </span>
+            {product?.offer_price < product?.price && (
+              <span className="text-slate-400 line-through mb-3">
+                Tk {product?.price}
+              </span>
+            )}
+
+            {/* Colors */}
+            <span className="underline mb-1">Colors</span>
+            <div className="flex flex-row gap-2 items-center justify-start mb-3">
+              {product?.variants?.map((variant) => (
+                <div key={variant?.name} className="flex flex-col items-center">
+                  <button
+                    className={`block w-[50px] aspect-square cursor-pointer border-2 ${
+                      selectedColor == variant?.name
+                        ? "border-slate-800"
+                        : "border-transparent"
+                    }`}
+                    onClick={() => {
+                      setSelectedVariant(variant);
+                      setSelectedColor(variant?.name);
+                      setImages(variant?.images);
+                      setActiveImage(0);
+                      setSelectedSize();
+                      setStockOut(false);
+                    }}
+                  >
+                    <img
+                      src={variant?.images[0]}
+                      alt="Product Image"
+                      className="aspect-square object-cover"
+                    />
+                  </button>
+                  <span
+                    className={`text-[12px] ${
+                      selectedColor == variant?.name
+                        ? "text-slate-800"
+                        : "text-slate-400"
+                    }`}
+                  >
+                    {variant?.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Sizes */}
+            <div className="relative">
+              <span className="underline">Sizes</span>
+              <span
+                className={`block absolute px-2 py-1 bg-red-600 text-white shadow-sm -top-[15px] left-[50px] border-2 border-red-500 rounded-sm pointer-events-none ${
+                  sizeWarning ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                Please select a size
+              </span>
+            </div>
+
+            <div className="flex flex-row gap-2 items-center justify-start mb-8">
+              {selectedVariant?.sizes?.map((size) => (
                 <button
-                  className={`block w-[50px] aspect-square cursor-pointer border-2 ${
-                    selectedColor == variant?.name
+                  key={size?.size}
+                  className={`block text-sm text-slate-800 w-[40px] h-[40px] border-2 cursor-pointer rounded-full overflow-hidden ${
+                    size?.stock == 0 && "opacity-50 line-through"
+                  } ${
+                    selectedSize == size?.size
                       ? "border-slate-800"
-                      : "border-transparent"
+                      : "border-slate-300"
                   }`}
                   onClick={() => {
-                    setSelectedVariant(variant);
-                    setSelectedColor(variant?.name);
-                    setImages(variant?.images);
-                    setActiveImage(0);
-                    setSelectedSize();
-                    setStockOut(false);
+                    setSizeWarning(false);
+                    setSelectedSize(size?.size);
+                    if (size?.stock == 0) {
+                      setStockOut(true);
+                    } else {
+                      setStockOut(false);
+                    }
                   }}
                 >
-                  <img
-                    src={variant?.images[0]}
-                    alt="Product Image"
-                    className="aspect-square object-cover"
-                  />
+                  {size?.size}
                 </button>
-                <span
-                  className={`text-[12px] ${
-                    selectedColor == variant?.name
-                      ? "text-slate-800"
-                      : "text-slate-400"
-                  }`}
-                >
-                  {variant?.name}
-                </span>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          {/* Sizes */}
-          <div className="relative">
-            <span className="underline">Sizes</span>
-            <span
-              className={`block absolute px-2 py-1 bg-red-600 text-white shadow-sm -top-[15px] left-[50px] border-2 border-red-500 rounded-sm pointer-events-none ${
-                sizeWarning ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              Please select a size
-            </span>
-          </div>
-
-          <div className="flex flex-row gap-2 items-center justify-start mb-8">
-            {selectedVariant?.sizes?.map((size) => (
+            {/* CTAs */}
+            <div>
+              {/* Add To Cart Button */}
               <button
-                key={size?.size}
-                className={`block text-sm text-slate-800 w-[40px] h-[40px] border-2 cursor-pointer rounded-full overflow-hidden ${
-                  size?.stock == 0 && "opacity-50 line-through"
-                } ${
-                  selectedSize == size?.size
-                    ? "border-slate-800"
-                    : "border-slate-300"
-                }`}
-                onClick={() => {
-                  setSizeWarning(false);
-                  setSelectedSize(size?.size);
-                  if (size?.stock == 0) {
-                    setStockOut(true);
-                  } else {
-                    setStockOut(false);
-                  }
-                }}
+                className="w-full flex flex-row justify-center items-center gap-2 rounded-sm hover:bg-red-600 hover:text-white text-lg px-2 py-2 border-2 border-red-600 bg-transparent text-red-600 mb-3 disabled:opacity-70 disabled:pointer-events-none"
+                disabled={stockOut}
+                onClick={addToCart}
               >
-                {size?.size}
+                {stockOut ? (
+                  "Out of Stock"
+                ) : (
+                  <>
+                    <FaShoppingCart /> Add to cart
+                  </>
+                )}
               </button>
-            ))}
+              {/* Buy Now Button */}
+              <button
+                className="w-full flex flex-row justify-center items-center gap-2 rounded-sm bg-red-600 text-white text-lg px-2 py-2 border-2 border-transparent hover:border-red-600 hover:bg-transparent hover:text-red-600 mb-8 disabled:opacity-50 disabled:pointer-events-none"
+                disabled={stockOut}
+                onClick={buyNow}
+              >
+                <FaArrowRight /> Buy it Now
+              </button>
+            </div>
+
+            {/* Description */}
+            <span className="underline mb-1">Description</span>
+            <p className="text-sm text-slate-700 font-light">
+              {product?.description}
+            </p>
           </div>
+        </section>
 
-          {/* CTAs */}
-          <div>
-            {/* Add To Cart Button */}
-            <button
-              className="w-full flex flex-row justify-center items-center gap-2 rounded-sm hover:bg-red-600 hover:text-white text-lg px-2 py-2 border-2 border-red-600 bg-transparent text-red-600 mb-3 disabled:opacity-70 disabled:pointer-events-none"
-              disabled={stockOut}
-              onClick={addToCart}
-            >
-              {stockOut ? (
-                "Out of Stock"
-              ) : (
-                <>
-                  <FaShoppingCart /> Add to cart
-                </>
-              )}
-            </button>
-            {/* Buy Now Button */}
-            <button
-              className="w-full flex flex-row justify-center items-center gap-2 rounded-sm bg-red-600 text-white text-lg px-2 py-2 border-2 border-transparent hover:border-red-600 hover:bg-transparent hover:text-red-600 mb-8 disabled:opacity-50 disabled:pointer-events-none"
-              disabled={stockOut}
-              onClick={buyNow}
-            >
-              <FaArrowRight /> Buy it Now
-            </button>
-          </div>
-
-          {/* Description */}
-          <span className="underline mb-1">Description</span>
-          <p className="text-sm text-slate-700 font-light">
-            {product?.description}
-          </p>
-        </div>
-      </section>
-
-      {/* Cart Drawer */}
-      <div className="drawer drawer-end z-[60]">
-        <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content">
-          {/* Page content here */}
-          {/* <label
+        {/* Cart Drawer */}
+        <div className="drawer drawer-end z-[60]">
+          <input id="cart-drawer" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content">
+            {/* Page content here */}
+            {/* <label
             htmlFor="cart-drawer"
             className="drawer-button btn btn-primary"
           >
             Open drawer
           </label> */}
-        </div>
-        <div className="drawer-side">
-          <label
-            htmlFor="cart-drawer"
-            aria-label="close sidebar"
-            className="drawer-overlay"
-          ></label>
-          <div className="menu bg-white text-slate-800 min-h-full w-96 p-4 relative">
-            <button
-              className="text-3xl absolute block right-10 top-3"
-              onClick={() => {
-                document.getElementById("cart-drawer").checked = false;
-                // setCartOpen(false);
-              }}
-            >
-              <IoCloseSharp />
-            </button>
-            <span className="text-xl font-semibold text-slate-900 ">
-              Your Cart
-            </span>
-            {/* {cartOpen && <CartSidebar />} TODO */}
-            <CartSidebar />
+          </div>
+          <div className="drawer-side">
+            <label
+              htmlFor="cart-drawer"
+              aria-label="close sidebar"
+              className="drawer-overlay"
+            ></label>
+            <div className="menu bg-white text-slate-800 min-h-full w-96 p-4 relative">
+              <button
+                className="text-3xl absolute block right-10 top-3"
+                onClick={() => {
+                  document.getElementById("cart-drawer").checked = false;
+                  // setCartOpen(false);
+                }}
+              >
+                <IoCloseSharp />
+              </button>
+              <span className="text-xl font-semibold text-slate-900 ">
+                Your Cart
+              </span>
+              {/* {cartOpen && <CartSidebar />} TODO */}
+              <CartSidebar />
+            </div>
           </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 };
 export default ProductDetails;

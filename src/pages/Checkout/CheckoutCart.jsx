@@ -5,6 +5,7 @@ import { useValues } from "../../hooks/Contexts/useValues";
 import { useEffect, useState } from "react";
 import { useAxiosPublic } from "../../hooks/Axios/useAxiosPublic";
 import Title from "../../components/Title/Title";
+import { Helmet } from "react-helmet";
 
 const CheckoutCart = () => {
   // const [products, setProducts] = useState([]);
@@ -58,6 +59,9 @@ const CheckoutCart = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Checkout - Cart | RaveTag BD</title>
+      </Helmet>
       <Container className="px-2 py-7">
         <Title>Checkout</Title>
 
