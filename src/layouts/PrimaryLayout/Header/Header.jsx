@@ -26,7 +26,7 @@ const Header = () => {
           path: "/shop?category=shirt",
         },
         {
-          name: "T-Shirts",
+          name: "T-Shirts & Drop Shoulders",
           path: "/shop?category=t-shirt",
         },
         {

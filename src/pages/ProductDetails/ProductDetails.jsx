@@ -112,6 +112,22 @@ const ProductDetails = () => {
     <>
       <Helmet>
         <title>{product?.name || "Product"} | RaveTag BD</title>
+        <meta
+          property="og:title"
+          content={`${product?.name || "Product"} | RaveTag BD`}
+        />
+        <meta
+          property="og:description"
+          content={`${
+            product?.description ||
+            "RaveTag is a men's clothing store located in Beanibazar, Sylhet, offering the latest products from world-class brands."
+          }`}
+        />
+        <meta
+          property="og:image"
+          itemProp="image"
+          content={`${getProduct?.[0]?.images[0]}`}
+        />
       </Helmet>
       <Container>
         <section className="grid grid-cols-1 lg:grid-cols-5 gap-14 py-6 px-2">
@@ -119,14 +135,20 @@ const ProductDetails = () => {
           <div className="lg:col-span-3 overflow-hidden">
             <img
               className="rounded-md border-2 border-slate-200 border-dashed w-full max-w-80 lg:max-w-[600px] aspect-square object-contain mx-auto"
-              src={images?.[activeImage]}
+              src={`${
+                images?.[activeImage] ||
+                "https://tocas-ui.com/5.0/zh-tw/assets/images/16-9.png"
+              }`}
               alt="Product Image"
             />
             <div className="flex flex-row flex-wrap gap-2 my-5">
               {images?.map((image, i) => (
                 <img
                   key={image}
-                  src={image}
+                  src={`${
+                    image ||
+                    "https://tocas-ui.com/5.0/zh-tw/assets/images/16-9.png"
+                  }`}
                   onClick={() => {
                     setActiveImage(i);
                   }}

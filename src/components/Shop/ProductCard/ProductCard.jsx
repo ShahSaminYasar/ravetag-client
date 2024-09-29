@@ -8,7 +8,10 @@ const ProductCard = ({ product }) => {
         {/* Product Image */}
         <div className="w-full aspect-square overflow-hidden">
           <img
-            src={product?.images?.[0]}
+            src={`${
+              product?.images?.[0] ||
+              "https://tocas-ui.com/5.0/zh-tw/assets/images/16-9.png"
+            }`}
             alt={product?.name + " image"}
             className="w-full h-full object-cover group-hover:scale-110 ease-in-out duration-300"
           />
