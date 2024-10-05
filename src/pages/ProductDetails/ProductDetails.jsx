@@ -2,19 +2,24 @@ import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import Container from "../../layouts/Container/Container";
 import { FaArrowRight, FaShoppingCart } from "react-icons/fa";
-import useProducts from "../../hooks/GET/useProducts";
+// import useProducts from "../../hooks/GET/useProducts";
 import LoaderScreen from "../../components/Loaders/LoaderScreen";
 import { IoCloseSharp } from "react-icons/io5";
 import CartSidebar from "../../components/CartSidebar/CartSidebar";
 import { useValues } from "../../hooks/Contexts/useValues";
 import { Helmet } from "react-helmet";
+import { useAxiosPublic } from "../../hooks/Axios/useAxiosPublic";
 
 const ProductDetails = () => {
   const { id: productId } = useParams();
   const { cart, setCart } = useValues();
   const navigate = useNavigate();
+  const axios = useAxiosPublic();
 
-  const getProduct = useProducts({ id: productId });
+  // const getProduct = useProducts({ id: productId });
+
+  const [productLoading, setProductLoading] = useState(true);
+  const [productError, setProductError] = useState(null);
 
   const [product, setProduct] = useState({});
   const [images, setImages] = useState([]);
@@ -26,17 +31,37 @@ const ProductDetails = () => {
   const [stockOut, setStockOut] = useState(false);
   // const [cartOpen, setCartOpen] = useState(false);
 
+  // useEffect(() => {
+  //   if (Array.isArray(getProduct)) {
+  //     setProduct(getProduct?.[0]);
+  //     setImages(getProduct?.[0]?.variants[0]?.images);
+  //     setActiveImage(0);
+  //     setSelectedVariant(getProduct?.[0]?.variants[0]);
+  //     setSelectedColor(getProduct?.[0]?.variants[0]?.name);
+  //     setSelectedSize();
+  //     setStockOut(false);
+  //   }
+  // }, [getProduct]);
+
   useEffect(() => {
-    if (Array.isArray(getProduct)) {
-      setProduct(getProduct?.[0]);
-      setImages(getProduct?.[0]?.variants[0]?.images);
-      setActiveImage(0);
-      setSelectedVariant(getProduct?.[0]?.variants[0]);
-      setSelectedColor(getProduct?.[0]?.variants[0]?.name);
-      setSelectedSize();
-      setStockOut(false);
-    }
-  }, [getProduct]);
+    axios
+      .get(`/products?id=${productId}`)
+      .then((getProduct) => {
+        setProduct(getProduct?.data?.[0]);
+        setImages(getProduct?.data?.[0]?.variants[0]?.images);
+        setActiveImage(0);
+        setSelectedVariant(getProduct?.data?.[0]?.variants[0]);
+        setSelectedColor(getProduct?.data?.[0]?.variants[0]?.name);
+        setSelectedSize();
+        setStockOut(false);
+        return setProductLoading(false);
+      })
+      .catch((error) => {
+        return setProductError(
+          error?.message | "An error occured, please refresh the page!"
+        );
+      });
+  }, []);
 
   const addToCart = () => {
     if (!selectedSize) {
@@ -81,16 +106,16 @@ const ProductDetails = () => {
     );
   };
 
-  if (getProduct?.isLoading) {
+  if (productLoading) {
     return <LoaderScreen />;
   }
 
-  if (getProduct?.error) {
-    console.error(getProduct?.error);
-    return <p>{getProduct?.error}</p>;
+  if (productError) {
+    console.error(productError);
+    return <p>{productError}</p>;
   }
 
-  if (getProduct?.length == 0) {
+  if (!productLoading && !product?.name) {
     return <Navigate to={"/shop"} />;
   }
 
@@ -126,7 +151,7 @@ const ProductDetails = () => {
         <meta
           property="og:image"
           itemProp="image"
-          content={`${getProduct?.[0]?.images[0]}`}
+          content={`${product?.images[0]}`}
         />
       </Helmet>
       <Container>

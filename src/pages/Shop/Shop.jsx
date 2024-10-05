@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import ProductCard from "../../components/Shop/ProductCard/ProductCard";
 import Container from "../../layouts/Container/Container";
 import useProducts from "../../hooks/GET/useProducts";
-import LoaderScreen from "../../components/Loaders/LoaderScreen";
 import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import LoaderScreenShop from "../../components/Loaders/LoaderScreenShop";
 
 const Shop = () => {
   // const navigate = useNavigate();
@@ -42,7 +42,7 @@ const Shop = () => {
   }, [getProducts]);
 
   if (getProducts?.isLoading) {
-    return <LoaderScreen />;
+    return <LoaderScreenShop />;
   }
 
   if (getProducts?.error) {
